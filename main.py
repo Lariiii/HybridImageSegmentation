@@ -1,11 +1,12 @@
-import pandas;
+import pandas
+from read_files import *
+
 
 def main():
     # Data Reading
-    fp = open('resources/DEM.txt', 'r')
-    lines = fp.readlines()
+    df = read_aspect1()
 
-    pandas.read_csv()
+    print(df)
 
 
 if __name__ == "__main__":
