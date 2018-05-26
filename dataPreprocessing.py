@@ -2,6 +2,8 @@ import pandas as pd
 from datafiles import *
 import numpy as np
 
+pruning_methods = ['best', 'mean', 'median']
+
 def pruning(dataframe, debug=False, method='best'):
     df_images = removeCoordinates(dataframe)
 
@@ -19,6 +21,8 @@ def pruning(dataframe, debug=False, method='best'):
         df_pruned = prune_to_best_image(dataframe, df_images, extra_value_count, debug)
     elif method == 'mean':
         df_pruned = prune_to_avg_image(dataframe, df_images, extra_value_count, debug)
+    elif method == 'median':
+        df_pruned = prune_to_median_image(dataframe, df_images, extra_value_count, debug)
     else:
         raise NotImplementedError
 
@@ -67,6 +71,9 @@ def prune_to_best_image(dataframe, df_images, extra_value_count, debug, sigma_fa
 
 def prune_to_avg_image(dataframe, df_images, extra_value_count, debug):
     return dataframe[['x', 'y']].assign(pixel=df_images['mean'])
+
+def prune_to_median_image(dataframe, df_images, extra_value_count, debug):
+    return dataframe[['x', 'y']].assign(pixel=df_images['median'])
 
 def output_as_txt(df_pruned, outputfile='output.txt'):
     np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'class']].values, fmt='%f')
