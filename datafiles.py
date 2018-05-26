@@ -17,3 +17,6 @@ def getAllData():
             ('ndvi', read_ndvi())
         ]
     return data_cache
+
+def removeCoordinates(df):
+    return df.drop(['x', 'y'], axis=1)
