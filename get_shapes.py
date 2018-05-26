@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import cv2
 
 def edgeDetection(image):
-    edges = cv2.Canny(im,100,200)
+    edges = cv2.Canny(image,100,200)
     plt.imshow(edges)
     plt.xticks([]), plt.yticks([])
     plt.savefig('results/edge')
@@ -25,8 +25,9 @@ def drawContoursCV(image, contours, hierarchy):
         cv2.waitKey(0)
         break
 
-im = cv2.imread('results/ndvi.png')
-edges = edgeDetection(im)
-image, contours, hierarchy = findContoursCV(edges)
-drawContoursCV(image, contours, hierarchy)
+def run():
+    im = cv2.imread('results/subjective1.png')
+    edges = edgeDetection(im)
+    image, contours, hierarchy = findContoursCV(edges)
+    drawContoursCV(image, contours, hierarchy)
 
