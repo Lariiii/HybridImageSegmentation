@@ -14,7 +14,6 @@ def edgeDetection(image, show=False, outputname='results/edge'):
         plt.show()
 
     if outputname is not None: plt.savefig(outputname, dpi=500)
-
     return thresh1
 
 def findContoursCV(edges, adaptive=True):
@@ -34,7 +33,6 @@ def findContoursCV(edges, adaptive=True):
     return image, contours, hierarchy
 
 def drawContoursCV(image, contours, hierarchy):
-    #for c in contours:
     cv.drawContours(
         image=image,
         contours=contours,
@@ -43,7 +41,6 @@ def drawContoursCV(image, contours, hierarchy):
         thickness=0)
     cv.imshow("Image", image)
     cv.waitKey(0)
-#    break
 
 def run():
     im = cv.imread('results/dem.png')
