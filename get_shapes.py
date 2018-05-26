@@ -1,15 +1,21 @@
 import matplotlib.pyplot as plt
 import cv2 as cv
+import numpy as np
 
-def edgeDetection(image, show=True, outputname='results/edge'):
-    edges = cv.Canny(image,100,200)
+def edgeDetection(image, show=False, outputname='results/edge'):
+    edges = cv.Canny(image,100,600)
+    kernel = np.ones((5, 5), np.float32) / 25
+    dst = cv.filter2D(edges, -1, kernel)
+    thresh1 = cv.adaptiveThreshold(dst, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
+    #ret, thresh1 = cv.threshold(dst, 127, 255, cv.THRESH_BINARY)
     if show:
         plt.imshow(edges)
         plt.xticks([]), plt.yticks([])
+        plt.show()
 
-    if outputname is not None: plt.savefig(outputname)
+    if outputname is not None: plt.savefig(outputname, dpi=500)
 
-    return edges
+    return thresh1
 
 def findContoursCV(edges, adaptive=True):
     if adaptive:
@@ -19,7 +25,7 @@ def findContoursCV(edges, adaptive=True):
             maxValue=255,
             adaptiveMethod=cv.ADAPTIVE_THRESH_GAUSSIAN_C,  #cv.ADAPTIVE_THRESH_MEAN_C
             thresholdType=cv.THRESH_BINARY_INV,
-            blockSize=11,
+            blockSize=31,
             C=0)
     else:
         _, thresh = cv.threshold(edges, 127, 255, 0)
@@ -32,7 +38,7 @@ def drawContoursCV(image, contours, hierarchy):
     cv.drawContours(
         image=image,
         contours=contours,
-        contourIdx=0,
+        contourIdx=-1,
         color=(0,255,0),
         thickness=0)
     cv.imshow("Image", image)
