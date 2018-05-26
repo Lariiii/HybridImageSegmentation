@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import cv2 as cv
 import numpy as np
+from datafiles import names
 
 def edgeDetection(image, show=False, outputName='results/edge'):
     edges = cv.Canny(image,100,600)
@@ -56,3 +57,6 @@ def getShowContoursAll():
             getShowContours(imageFile=file)
         except TypeError:
             print(file, 'not found')
+
+def run():
+    getShowContours('results/ndvi.png')
