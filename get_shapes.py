@@ -44,5 +44,3 @@ def run():
     edges = edgeDetection(im)
     image, contours, hierarchy = findContoursCV(edges)
     drawContoursCV(image, contours, hierarchy)
-
-run()

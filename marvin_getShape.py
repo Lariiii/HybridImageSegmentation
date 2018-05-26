@@ -16,3 +16,4 @@ drawContoursCV(image2, contours2, hierarchy2)
 
 for org_contours in contours1:
     for dest_contour in contours2:
+        pass
