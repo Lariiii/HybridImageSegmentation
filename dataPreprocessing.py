@@ -53,7 +53,7 @@ def pruning(dataframe, debug=False):
 
 import numpy as np
 
-def output_as_txt(df_pruned, outputfile='results/corine.txt'):
-    np.savetxt(outputfile, df_pruned[['x', 'y', 'pixel']].values, fmt='%f')
+def output_as_txt(df_pruned, outputfile='output.txt'):
+    np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'pixel']].values, fmt='%f')
 
-output_as_txt(pruning(read_ndvi()))
+output_as_txt(pruning(read_ndvi()), 'nvdi.txt')
