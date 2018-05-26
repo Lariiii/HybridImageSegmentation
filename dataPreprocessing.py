@@ -50,3 +50,10 @@ def pruning(dataframe, debug=False):
         .assign(median=medians.values) \
         .assign(std_dev=std_devs.values) \
         .rename(columns={bestMatch :'pixel'})
+
+import numpy as np
+
+def output_as_txt(df_pruned, outputfile='results/corine.txt'):
+    np.savetxt(outputfile, df_pruned[['x', 'y', 'pixel']].values, fmt='%f')
+
+output_as_txt(pruning(read_ndvi()))
