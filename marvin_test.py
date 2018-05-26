@@ -1,76 +1,63 @@
 from dataPreprocessing import pruning
 from read_files import *
-
-#df_geo = pruning(read_subjective1())
-df_geo = read_subjective1()
-
-minValue_x = 4423900
-minValue_y = 5746100
-
-min_x = 100000000
-max_x = 0
-
-min_y = 100000000
-max_y = 0
-
-
-for i, row in df_geo.iterrows():
-    df_geo.set_value(i, 'x', row['x']/100)
-    df_geo.set_value(i, 'y', row['y']/100)
-    if row['x'] < min_x:
-        min_x = row['x']
-    if row['x'] > max_x:
-        max_x = row['x']
-
-    if row['y'] < min_y:
-        min_y = row['y']
-    if row['y'] > max_y:
-        max_y = row['y']
-
-for i, row in df_geo.iterrows():
-    df_geo.set_value(i,'x', row['x'] - min_x)
-    df_geo.set_value(i, 'y', row['y'] - min_y)
-
-min_x = 100000000
-max_x = 0
-
-min_y = 100000000
-max_y = 0
-
-for i, row in df_geo.iterrows():
-    if row['x'] < min_x:
-        min_x = row['x']
-    if row['x'] > max_x:
-        max_x = row['x']
-
-    if row['y'] < min_y:
-        min_y = row['y']
-    if row['y'] > max_y:
-        max_y = row['y']
-
-print(max_x)
-print(min_x)
-print(max_y)
-print(min_y)
-#print(df_geo)
-
 import numpy
 from PIL import Image
 
-data = numpy.zeros((431,337 , 3), dtype=numpy.uint8)
+def dataframeToImage(dataframe, classRangeHigh, coninuus, filename):
 
-colors = [[255,255,255], [255,0,0], [0,255,0], [0,0,255], [255,255,0], [0,255,255], [255,0,255], [128,0,0], [0,128,0], [0,0,128], [128,128,0], [0,128,128] ]
-colors = list(numpy.random.choice(range(256), size=20))
+    min_x = 1000000
+    max_x = 0
+    min_y = 1000000
+    max_y = 0
 
-colors = []
-for i in range(20):
-    colors.append([numpy.random.randint(low=0, high=255), numpy.random.randint(low=0, high=255), numpy.random.randint(low=0, high=255)])
+    for i, row in dataframe.iterrows():
+        dataframe.set_value(i, 'x', row['x'] / 100)
+        dataframe.set_value(i, 'y', row['y'] / 100)
+        if row['x'] < min_x:
+            min_x = row['x']
+        if row['x'] > max_x:
+            max_x = row['x']
 
-#data[512, 511] = [255, 0, 0]
-for i, row in df_geo.iterrows():
-    #print(""+str(row['x'])+" "+str(row['y']))
-    data[int(row['x'])][int(row['y'])] = colors[int(row['class'])-1]
+        if row['y'] < min_y:
+            min_y = row['y']
+        if row['y'] > max_y:
+            max_y = row['y']
+
+    for i, row in dataframe.iterrows():
+        dataframe.set_value(i, 'x', row['x'] - min_x)
+        dataframe.set_value(i, 'y', row['y'] - min_y)
+
+    data = numpy.zeros((431, 337, 3), dtype=numpy.uint8)
+
+    colors = []
+    if coninuus:
+        # 0 to 1 or 0 to 600
+        for i, row in dataframe.iterrows():
+            data[int(row['x'])][int(row['y'])] = [int((row['class'] / classRangeHigh) * 255), 0, 0]
+    else:
+        for i in range(classRangeHigh):
+            colors.append([numpy.random.randint(low=0, high=255), numpy.random.randint(low=0, high=255),
+                           numpy.random.randint(low=0, high=255)])
+
+        for i, row in dataframe.iterrows():
+            # print(""+str(row['x'])+" "+str(row['y']))
+            data[int(row['x'])][int(row['y'])] = colors[int(row['class']) - 1]
+
+    image = Image.fromarray(data)
+    image.save(filename)
 
 
-image = Image.fromarray(data)
-image.save('test.png')
+#df_geo = pruning(read_subjective1())
+
+df_geo = read_subjective1()
+
+'results/test.png'
+
+dataframeToImage(read_subjective1(), 12, False, 'results/subjective1.png')
+dataframeToImage(read_subjective2(), 12, False, 'results/subjective2.png')
+dataframeToImage(read_corine(), 40, False, 'results/corine.png')
+
+#dataframeToImage(read_subjective1(), 12, False)
+#dataframeToImage(read_subjective1(), 12, False)
+
+
