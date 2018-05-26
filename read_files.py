@@ -7,12 +7,12 @@ def read_corine():
     return data
 
 def read_subjective1():
-    data = pd.read_csv('resources/Subjective1.txt', sep="  ", header=None)
+    data = pd.read_csv('resources/Subjective_1.txt', sep="  ", header=None)
     data.columns = ['x', 'y', 'class']
     return data
 
 def read_subjective2():
-    data = pd.read_csv('resources/Subjective2.txt', sep="  ", header=None)
+    data = pd.read_csv('resources/Subjective_2.txt', sep="  ", header=None)
     data.columns = ['x', 'y', 'class']
     return data
 
@@ -32,7 +32,7 @@ def read_aspect2():
     return data
 
 def read_aspect_degree():
-    data = pd.read_csv('resources/Aspect_degree.txt', sep="  ", header=None)
+    data = pd.read_csv('resources/Aspect_degrees.txt', sep="  ", header=None)
     data.columns = ['x', 'y', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'm10', 'm11', 'm12', 'm13', 'm14', 'm15', 'm16', 'm17', 'm18', 'm19', 'm20']
     return data
 
