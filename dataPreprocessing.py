@@ -69,6 +69,6 @@ def prune_to_avg_image(dataframe, df_images, extra_value_count, debug):
     return dataframe[['x', 'y']].assign(pixel=df_images['mean'])
 
 def output_as_txt(df_pruned, outputfile='output.txt'):
-    np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'pixel']].values, fmt='%f')
+    np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'class']].values, fmt='%f')
 
 output_as_txt(pruning(read_ndvi()), 'nvdi.txt')
