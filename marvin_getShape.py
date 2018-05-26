@@ -15,7 +15,7 @@ edges2 = edgeDetection(im2)
 image2, contours2, hierarchy2 = findContoursCV(edges2)
 drawContoursCV(image2, contours2, hierarchy2)
 
-def drawShape(shapes):
+def drawShape(name, shapes):
     data = numpy.zeros((431, 337, 3), dtype=numpy.uint8)
 
     colors = [255, 0, 0]
@@ -25,12 +25,18 @@ def drawShape(shapes):
 
     image = Image.fromarray(data)
     cv.imshow("Image", numpy.asarray(image))
+    #cv.imwrite("output/shape"+str(name)+".png", numpy.asarray(image))
     cv.waitKey(0)
 
+contoursSmall = []
+for shape in contours1:
+    if len(shape) > 10:
+        contoursSmall.append(shape)
+print(len(contoursSmall))
 
 
-for org_contour in contours1:
-    drawShape(org_contour)
+for i, org_contour in enumerate(contoursSmall):
+    drawShape(i, org_contour)
     for dest_contour in contours2:
         ret = cv2.matchShapes(org_contour, dest_contour, 1, 0.0)
         if ret < 0.01:
