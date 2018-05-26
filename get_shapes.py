@@ -5,7 +5,7 @@ def edgeDetection(image):
     edges = cv2.Canny(im,100,200)
     plt.imshow(edges)
     plt.xticks([]), plt.yticks([])
-    plt.savefig('edge')
+    plt.savefig('results/edge')
     #plt.subplot(121), plt.imshow(im,cmap="gray")
     #plt.title('Original Image'), plt.xticks([]), plt.yticks([])
     #plt.subplot(122),plt.imshow(edges,cmap = 'gray')
@@ -19,13 +19,14 @@ def findContoursCV(edges):
     return image, contours, hierarchy
 
 def drawContoursCV(image, contours, hierarchy):
-    img = cv2.drawContours(image, contours, -1, (0,255,0), 3)
-    plt.imshow(img)
-    plt.show()
+    for c in contours:
+        cv2.drawContours(image, [c], -1, (0,255,0), 2)
+        cv2.imshow("Image", image)
+        cv2.waitKey(0)
+        break
 
-im = cv2.imread('test.png')
+im = cv2.imread('results/ndvi.png')
 edges = edgeDetection(im)
-#edges = cv2.imread('edge.png')
 image, contours, hierarchy = findContoursCV(edges)
 drawContoursCV(image, contours, hierarchy)
 
