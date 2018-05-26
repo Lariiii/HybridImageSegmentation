@@ -1,13 +1,14 @@
 import matplotlib.pyplot as plt
 import cv2 as cv
+from datafiles import names
 
-def edgeDetection(image, show=True, outputname='results/edge'):
+def edgeDetection(image, show=True, outputName='results/edge'):
     edges = cv.Canny(image,100,200)
     if show:
         plt.imshow(edges)
         plt.xticks([]), plt.yticks([])
 
-    if outputname is not None: plt.savefig(outputname)
+    if outputName is not None: plt.savefig(outputName)
 
     return edges
 
@@ -39,7 +40,17 @@ def drawContoursCV(image, contours, hierarchy=None, name="Image"):
 
 def getShowContours(imageFile='results/dem.png'):
     im = cv.imread(imageFile)
-    edges = edgeDetection(im)
+    edges = edgeDetection(im, outputName=imageFile+'_edge.png')
     image, contours, hierarchy = findContoursCV(edges)
     drawContoursCV(image, contours, hierarchy, name=imageFile)
     return image, contours, hierarchy
+
+def getShowContoursAll():
+    for sourceName in names:
+        file='results/'+sourceName+'.png'
+        try:
+            getShowContours(imageFile=file)
+        except TypeError:
+            print(file, 'not found')
+
+#getShowContoursAll()
