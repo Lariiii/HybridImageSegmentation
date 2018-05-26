@@ -37,8 +37,9 @@ def drawContoursCV(image, contours, hierarchy=None, name="Image"):
     cv.imshow(name, image)
     cv.waitKey(0)
 
-def run(imageFile='results/dem.png'):
+def getShowContours(imageFile='results/dem.png'):
     im = cv.imread(imageFile)
     edges = edgeDetection(im)
     image, contours, hierarchy = findContoursCV(edges)
     drawContoursCV(image, contours, hierarchy, name=imageFile)
+    return image, contours, hierarchy
