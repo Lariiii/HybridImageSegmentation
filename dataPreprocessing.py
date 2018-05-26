@@ -1,44 +1,52 @@
 import pandas as pd
-from read_files import *
 from datafiles import *
 
-def pruning():
-    dataframe = read_dem()
-    df = removeCoordinates(dataframe)
+def pruning(dataframe, debug=False):
+    df_images = removeCoordinates(dataframe)
 
-    median = df.median(axis=1)
-    std = df.std(axis=1)
+    medians = df_images.median(axis=1)
+    std_devs = df_images.std(axis=1)
 
-    df = df.assign(median=median.values)
-    df = df.assign(std=std.values)
+    df_images = df_images.assign(median=medians.values)
+    df_images = df_images.assign(std=std_devs.values)
 
     #print(df)
 
-    temp = []
+    outlier_detection_array = []
 
-    for index, data in df.iterrows():
-        ls = data.tolist()
-        std = ls[-1]
-        median = ls[-2]
-        factor = 1
-        minimum = median - factor * std
-        maximum = median + factor * std
-        # new = [ i for i, d in enumerate(ls[:-2]) if not (minimum <= d and d <= maximum) ]
-        new = [(minimum <= d and d <= maximum) for d in ls[:-2] ]
+    for _, row in df_images.iterrows():
+        row_list = row.tolist()
+        std_dev = row_list[-1]
+        median = row_list[-2]
+        sigma_factor = 1.5
+        minimum = median - sigma_factor * std_dev
+        maximum = median + sigma_factor * std_dev
+        outlying_row = [(minimum <= d and d <= maximum) for d in row_list[:-2] ]
 
-        temp.append(new)
+        outlier_detection_array.append(outlying_row)
 
-    for x in temp:
-        #print(x)
-        pass
+    image_headers = removeCoordinates(dataframe).columns.values.tolist()
 
-    headers = removeCoordinates(dataframe).columns.values.tolist()
-    df_new = pd.DataFrame(temp, columns=headers)
-    print(df_new.head())
+    df_new = pd.DataFrame(outlier_detection_array, columns=image_headers)
+
+    if debug:
+        print(df_new.head())
+        print()
+
     matchingCounts = df_new.sum(axis=0)
-    print(matchingCounts)
-    bestMatch = matchingCounts.argmax()
 
-    print(bestMatch, matchingCounts[bestMatch])
-    print(matchingCounts.sort_values())
+    if debug:
+        print(matchingCounts)
+        print()
 
+    bestMatch = matchingCounts.idxmax()
+
+    if debug: print('best:', bestMatch, 'with', matchingCounts[bestMatch])
+    if debug:
+        print('The others are:\n', matchingCounts.sort_values(ascending=False))
+        print()
+
+    return dataframe[['x', 'y', bestMatch]] \
+        .assign(median=medians.values) \
+        .assign(std_dev=std_devs.values) \
+        .rename(columns={bestMatch :'pixel'})
