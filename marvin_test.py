@@ -60,6 +60,11 @@ from PIL import Image
 data = numpy.zeros((431,337 , 3), dtype=numpy.uint8)
 
 colors = [[255,255,255], [255,0,0], [0,255,0], [0,0,255], [255,255,0], [0,255,255], [255,0,255], [128,0,0], [0,128,0], [0,0,128], [128,128,0], [0,128,128] ]
+colors = list(numpy.random.choice(range(256), size=20))
+
+colors = []
+for i in range(20):
+    colors.append([numpy.random.randint(low=0, high=255), numpy.random.randint(low=0, high=255), numpy.random.randint(low=0, high=255)])
 
 #data[512, 511] = [255, 0, 0]
 for i, row in df_geo.iterrows():
