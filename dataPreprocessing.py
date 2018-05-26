@@ -1,7 +1,8 @@
 import pandas as pd
 from datafiles import *
+import numpy as np
 
-def pruning(dataframe, debug=False):
+def pruning(dataframe, debug=False, method='best'):
     df_images = removeCoordinates(dataframe)
 
     medians = df_images.median(axis=1)
@@ -14,7 +15,12 @@ def pruning(dataframe, debug=False):
 
     extra_value_count = 3
 
-    df_pruned = prune_to_best_image(dataframe, df_images, extra_value_count, debug)
+    if method == 'best':
+        df_pruned = prune_to_best_image(dataframe, df_images, extra_value_count, debug)
+    elif method == 'mean':
+        df_pruned = prune_to_avg_image(dataframe, df_images, extra_value_count, debug)
+    else:
+        raise NotImplementedError
 
     return df_pruned.assign(median=medians.values) \
         .assign(std_dev=std_devs.values)
@@ -58,7 +64,8 @@ def prune_to_best_image(dataframe, df_images, extra_value_count, debug, sigma_fa
     return dataframe[['x', 'y', bestMatch]] \
         .rename(columns={bestMatch: 'pixel'})
 
-import numpy as np
+def prune_to_avg_image(dataframe, df_images, extra_value_count, debug):
+    return dataframe[['x', 'y']].assign(pixel=df_images['mean'])
 
 def output_as_txt(df_pruned, outputfile='output.txt'):
     np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'pixel']].values, fmt='%f')
