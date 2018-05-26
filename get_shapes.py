@@ -19,13 +19,17 @@ def findContoursCV(edges):
     return image, contours, hierarchy
 
 def drawContoursCV(image, contours, hierarchy):
-    img = cv2.drawContours(image, contours, -1, (0,255,0), 3)
-    plt.imshow(img)
-    plt.show()
+    for c in contours:
+        cv2.drawContours(image, [c], -1, (0,255,0), 2)
+        cv2.imshow("Image", image)
+        cv2.waitKey(0)
+        break
 
-im = cv2.imread('test.png')
+
+
+
+im = cv2.imread('results/ndvi.png')
 edges = edgeDetection(im)
-#edges = cv2.imread('edge.png')
 image, contours, hierarchy = findContoursCV(edges)
 drawContoursCV(image, contours, hierarchy)
 
