@@ -1,15 +1,11 @@
-demPixles = []
+import pandas;
 
 def main():
     # Data Reading
     fp = open('resources/DEM.txt', 'r')
     lines = fp.readlines()
-    cnt = 1
 
-    while line:
-        print("Line {}: {}".format(cnt, line.strip()))
-        line = fp.readline()
-        cnt += 1
+    pandas.read_csv()
 
 
 if __name__ == "__main__":
