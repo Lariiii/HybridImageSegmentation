@@ -6,7 +6,7 @@ from get_shapes import *
 
 def main():
     # Data Reading
-    run()
+    getShowContours("results/subjective1.png")
 
 
 if __name__ == "__main__":

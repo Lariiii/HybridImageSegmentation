@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import cv2 as cv
 import numpy as np
 
-def edgeDetection(image, show=False, outputname='results/edge'):
+def edgeDetection(image, show=False, outputName='results/edge'):
     edges = cv.Canny(image,100,600)
     kernel = np.ones((5, 5), np.float32) / 25
     dst = cv.filter2D(edges, -1, kernel)
@@ -13,7 +13,7 @@ def edgeDetection(image, show=False, outputname='results/edge'):
         plt.xticks([]), plt.yticks([])
         plt.show()
 
-    if outputname is not None: plt.savefig(outputname, dpi=500)
+    plt.savefig(outputName, dpi=500)
     return thresh1
 
 def findContoursCV(edges, adaptive=True):
@@ -42,8 +42,17 @@ def drawContoursCV(image, contours, hierarchy):
     cv.imshow("Image", image)
     cv.waitKey(0)
 
-def run():
-    im = cv.imread('results/dem.png')
-    edges = edgeDetection(im)
+def getShowContours(imageFile):
+    im = cv.imread(imageFile)
+    edges = edgeDetection(im, outputName=imageFile+'_edge.png')
     image, contours, hierarchy = findContoursCV(edges)
     drawContoursCV(image, contours, hierarchy)
+    return image, contours, hierarchy
+
+def getShowContoursAll():
+    for sourceName in names:
+        file='results/'+sourceName+'.png'
+        try:
+            getShowContours(imageFile=file)
+        except TypeError:
+            print(file, 'not found')
