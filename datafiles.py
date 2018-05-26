@@ -2,6 +2,18 @@ from read_files import *
 
 data_cache = None
 
+names=[
+    'corine',
+    'subjective1',
+    'subjective2',
+    'slope',
+    'aspect1',
+    'aspect2',
+    'aspect_degree',
+    'dem',
+    'ndvi'
+]
+
 def getAllData():
     global data_cache
     if data_cache is None:
