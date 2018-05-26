@@ -23,7 +23,8 @@ def pruning(dataframe, debug=False, method='best'):
         raise NotImplementedError
 
     return df_pruned.assign(median=medians.values) \
-        .assign(std_dev=std_devs.values)
+        .assign(std_dev=std_devs.values) \
+        .rename(columns={'pixel' : 'class'})
 
 # return df with [x, y, pixel]
 def prune_to_best_image(dataframe, df_images, extra_value_count, debug, sigma_factor=1.5):
