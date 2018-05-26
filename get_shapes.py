@@ -22,8 +22,9 @@ def drawContoursCV(image, contours, hierarchy):
         cv2.waitKey(0)
         break
 
-im = cv2.imread('results/dem.png')
-edges = edgeDetection(im)
-image, contours, hierarchy = findContoursCV(edges)
-drawContoursCV(image, contours, hierarchy)
+def run():
+    im = cv2.imread('results/dem.png')
+    edges = edgeDetection(im)
+    image, contours, hierarchy = findContoursCV(edges)
+    drawContoursCV(image, contours, hierarchy)
 

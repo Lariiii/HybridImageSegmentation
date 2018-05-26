@@ -1,13 +1,12 @@
 import pandas
 from read_files import *
 from dataPreprocessing import *
+from get_shapes import *
 
 
 def main():
     # Data Reading
-    df = read_aspect1()
-    df_pruned = pruning(df)
-    print(df_pruned.head())
+    run()
 
 
 if __name__ == "__main__":
