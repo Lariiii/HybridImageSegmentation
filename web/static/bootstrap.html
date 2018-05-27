@@ -25,29 +25,68 @@
 </head>
 <body>
 <script>
+    var filename1 = null, filename2 = null;
+
     function uploadFile(placeIndicator) {
         var f = document.getElementById(placeIndicator.concat('-image-file'));
         var button = document.getElementById(placeIndicator.concat('-image-button'));
         f.click();
-        var file = f.files[0];
-        var formData = new FormData();
-        formData.append('file', file, file.name);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:5000/uploaddata', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    button.innerHTML = 'Uploaded';
-                    var img = document.createElement("img");
-                    img.setAttribute("src", xhr.response);
-                    document.getElementById(placeIndicator.concat('-image')).appendChild(img)
-                } else {
-                    alert('An error occurred!');
+        if (f.files.length > 0) {
+            var file = f.files[0];
+            if (placeIndicator == 'first') filename1=file.name;
+            else if (placeIndicator == 'second') filename2=file.name;
+            else {
+                mergeFiles(filename1, filename2)
+                return
+            }
+            var formData = new FormData();
+            formData.append('file', file, file.name);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:5000/uploaddata', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        button.innerHTML = 'Uploaded';
+                        var img = document.createElement("img");
+                        img.setAttribute("src", xhr.response);
+                        document.getElementById(placeIndicator.concat('-image')).appendChild(img)
+                    } else {
+                        alert('An error occurred!');
+                        button.innerHTML = 'Try again!'
+                    }
                 }
             }
+            button.innerHTML = 'Uploading';
+            xhr.send(formData);
+        } else {
+            button.innerHTML = 'Choose';
         }
-        button.innerHTML = 'Uploading';
-        xhr.send(formData);
+
+    }
+
+    function mergeFiles(f1, f2) {
+        var button = document.getElementById('merge-image-button');
+        if (filename1 === null || filename2 === null) {
+            button.innerHTML = 'Too early'
+            return
+        }
+        
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                button.innerHTML = 'Merged';
+                        var img = document.createElement("img");
+                        img.setAttribute("src", xmlHttp.responseText);
+                        document.getElementById('merge-image').appendChild(img)
+
+            } else {
+                button.innerHTML = 'Try again!'
+            }
+
+        }
+        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1='" + filename1 + "'&f2='" + filename2 + "'", true); // true for asynchronous
+        xmlHttp.send(null);
+        button.innerHTML = 'Merging'
     }
 </script>
 <header class="container-fluid">
@@ -63,21 +102,20 @@
     <div class="container" style="float: left;width: 50%;">
         <div class="container">
             <input id="first-image-file" style="display: none;" type="file">
-            <button id="first-image-button" onclick="uploadFile('first')">Upload File 1</button>
+            <button id="first-image-button" type="button" class="btn btn-light" onclick="uploadFile('first')">Upload File 1</button>
         </div>
         <div class="container" id="first-image"></div>
     </div>
     <div class="container" style="float: right;width: 50%;">
         <div class="container">
             <input id="second-image-file" style="display: none;" type="file">
-            <button id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
+            <button id="second-image-button" type="button" class="btn btn-light" id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
         </div>
         <div class="container" id="second-image"></div>
     </div>
     <div class="container-fluid" style="width: 100%;clear: both;">
         <div class="container" style="width: 62%;margin: 0 auto;text-align: center;">
-            <input id="merge-image-file" style="display: none;" type="file">
-            <button id="merge-image-button" style="margin: 50px auto;width: 62%;height: 50px;" onclick="uploadFile('merge')">MERGE</button>
+            <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block" onclick="uploadFile('merge')">MERGE</button>
             <div id="merge-image" class="container"></div>
         </div>
     </div>
