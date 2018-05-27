@@ -8,7 +8,7 @@ from read_files import read_subjective2, read_subjective1
 
 filename = 'results/testColor.png'
 
-def createColorMap(dataframe1, dataframe2):
+def createColorMap(dataframe1, dataframe2, show):
     classRangeHigh = 0
     for i, row in dataframe1.iterrows():
         if int(row['class']) > classRangeHigh:
@@ -29,9 +29,10 @@ def createColorMap(dataframe1, dataframe2):
             data[int(dataframe1.iloc[i]['x'])][int(dataframe1.iloc[i]['y'])] = 255
 
     image = Image.fromarray(data)
-    cv2.imshow("ColorMap", numpy.asarray(image))
-    cv2.waitKey(0)
+    if show:
+        cv2.imshow("ColorMap", numpy.asarray(image))
+        cv2.waitKey(0)
     return image
 
-def run():
-    createColorMap(read_subjective1(), read_subjective2())
+def run(show):
+    return createColorMap(read_subjective1(), read_subjective2(), show)
