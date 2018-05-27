@@ -96,5 +96,20 @@ def upload():
         return response
     return get_response
 
+@app.route('/mergefiles')
+def mergeFiles():
+    filename1 = request.args.get('f1')
+    filename2 = request.args.get('f2')
+
+
+    targetFilename = ''.join([filename1, '_', filename2, 'merged.png'])
+    targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
+
+
+    print('Store image to ', targetFilename)
+    response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
+    return response
+
+
 if __name__ == "__main__":
     app.run()
