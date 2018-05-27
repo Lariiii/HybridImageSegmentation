@@ -14,3 +14,18 @@ header {
     height: 90%;
     width: 10%;
 }
+
+header h1 {
+    color: whitesmoke;
+    line-height: 90px;
+}
+
+#headline-container {
+    float: left;
+    width: 90%;
+}
+
+footer div{
+    width:100%;
+    text-align: center;
+}

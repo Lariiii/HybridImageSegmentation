@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -23,7 +23,7 @@
     <title>Imager</title>
 
 </head>
-<body style="background-color: lightcyan;">
+<body>
 <script>
     function uploadFile(placeIndicator) {
         var f = document.getElementById(placeIndicator.concat('-image-file'));
@@ -54,8 +54,9 @@
         <div class="container" style="height: 90px;">
             <div class="container" id="logo">
                 <img style="max-height: 100%;" src="bootstrap_files/UFZ_colored_withoutBlack.png"></div>
-            <div class="container" style="float: left;width: 90%;/*! line-height: 90px; */"><h1
-                    style="color: whitesmoke;line-height: 90px;">Helmholtz Centre for Environmental Research</h1></div>
+            <div class="container" id="headline-container">
+                <h1>Helmholtz Centre for Environmental Research</h1>
+            </div>
         </div>
 </header>
 <div class="container" style="padding-top: 30px;">
@@ -82,9 +83,10 @@
     </div>
 </div>
 
-    <footer style="width: 100%;height: 70px;background-color: #00589c;line-height: 70px;text-align: center;color: whitesmoke;">
-        Imprint &amp; Data Policy
-        <div></div>
+    <footer class="navbar fixed-bottom navbar-light bg-light">
+        <div>
+            Imprint &amp; Data Policy
+        </div>
     </footer>
 
 
