@@ -11,6 +11,7 @@ This repository contains the concept and approaches to integrate human and techn
 
 ### Boostmatching
 ![Boostmatching](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/Boostmatching.png)
+The approach of Boostmatching combines several "Matching-Algorithms" to one Ensemble Framework. This is extensible to many more matching approaches.
 
 ### Convex Hull
 
