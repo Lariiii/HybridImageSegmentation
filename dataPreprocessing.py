@@ -78,4 +78,4 @@ def prune_to_median_image(dataframe, df_images, extra_value_count, debug):
 def output_as_txt(df_pruned, outputfile='output.txt'):
     np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'class']].values, fmt='%f')
 
-output_as_txt(pruning(read_ndvi()), 'nvdi.txt')
+# output_as_txt(pruning(read_ndvi()), 'nvdi.txt')
