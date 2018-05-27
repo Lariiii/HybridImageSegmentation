@@ -9,9 +9,9 @@ import approach_colorMatching
 
 def main():
     # Data Reading
-    generatePNGs = False
+    generatePNGs = True
     shapeMatching = False
-    colorMatching = True
+    colorMatching = False
     subjectiveMatching = False
 
     if generatePNGs:
@@ -33,7 +33,7 @@ def main():
         _ = approach_shapeMatching.run('results/subjective2.png', subjectiveIntegration=True, show=True)
 
     if colorMatching:
-        _ = approach_colorMatching.run()
+        _ = approach_colorMatching.run(show=True)
 
 
 

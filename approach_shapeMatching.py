@@ -42,7 +42,8 @@ def run(filePath, subjectiveIntegration, show):
     im2 = cv2.imread(filePath)
     edges2 = edgeDetection(im2)
     image2, contours2, hierarchy2 = findContoursCV(edges2)
-    drawContoursCV(image2, contours2)
+    if show:
+        drawContoursCV(image2, contours2)
 
     if subjectiveIntegration:
         img_part1 = cv2.imread('results/subjective1.png')
@@ -54,10 +55,12 @@ def run(filePath, subjectiveIntegration, show):
     edges_part2 = edgeDetection(img_part2)
     edges1 = cv2.addWeighted(edges_part1,0.5,edges_part2,0.5,0)
     image1, contours1, hierarchy1 = findContoursCV(edges1)
-    drawContoursCV(image1, contours1)
+    if show:
+        drawContoursCV(image1, contours1)
 
-    cv2.imshow("abc1", edges1)
-    cv2.imshow("abc2", edges2)
+    if show:
+        cv2.imshow("abc1", edges1)
+        cv2.imshow("abc2", edges2)
 
     contoursSmallOrg = filterContours(contours1)
     contoursSmallDest = filterContours(contours2)
@@ -71,8 +74,8 @@ def run(filePath, subjectiveIntegration, show):
                 ret = cv2.matchShapes(org_contour, dest_contour, 1, 0.0)
                 if ret < 1.25:
                     drawHeatmap(edgeHeatmap, dest_contour, org_contour)
+                    heatmapShapes.append((org_contour, dest_contour))
                     if show:
-                        heatmapShapes.append((org_contour, dest_contour))
                         plt.subplot(121), plt.imshow(drawShape(org_contour, edges1), cmap='gray')
                         plt.title('Original Shape'), plt.xticks([]), plt.yticks([])
                         plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')

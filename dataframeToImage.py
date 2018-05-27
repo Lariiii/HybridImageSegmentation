@@ -29,6 +29,7 @@ def dataframePreprocessing(dataframe):
     return dataframe
 
 def dataframeToImage(dataframe, filename):
+    #ToDO: Make Jannik Happy
     classRangeHigh = 0
     for i, row in dataframe.iterrows():
         if int(row['class']) > classRangeHigh:
