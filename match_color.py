@@ -1,20 +1,12 @@
-from dataPreprocessing import pruning
-from read_files import *
+import cv2
 import numpy
-from PIL import Image
 
-def dataframeToImage(dataframe, filename):
+from get_shapes import edgeDetection, findContoursCV, drawContoursCV
 
-    classRangeHigh = 0
-    for i, row in dataframe.iterrows():
-        if int(row['class']) > classRangeHigh:
-            classRangeHigh = int(row['class'])
+subjective_1 = cv2.imread('results/subjective1.png')
+subjective_2 = cv2.imread('results/subjective2.png')
 
-    # Not True in general, but for this PoC
-    if classRangeHigh > 42:
-        coninuus = True
-    else:
-        coninuus = False
+def dataframeToImageColorMerge(dataframe1, dataframe2, classRangeHigh, coninuus, filename):
 
     min_x = 1000000
     max_x = 0
@@ -52,25 +44,14 @@ def dataframeToImage(dataframe, filename):
 
         for i, row in dataframe.iterrows():
             # print(""+str(row['x'])+" "+str(row['y']))
+            print(int(row['class']) - 1)
             data[int(row['x'])][int(row['y'])] = colors[int(row['class']) - 1]
 
     image = Image.fromarray(data)
     image.save(filename)
 
 
-#df_geo = pruning(read_subjective1())
-#df_geo = read_subjective1()
 
-dataframeToImage(read_subjective1(), 'results/subjective1.png')
-dataframeToImage(read_subjective2(), 'results/subjective2.png')
-dataframeToImage(read_corine(), 'results/corine.png')
-
-#dataframeToImage(pruning(read_aspect1()), 180, True, 'results/aspect1.png')
-#dataframeToImage(pruning(read_aspect2()), 180, True, 'results/aspect2.png')
-
-#dataframeToImage(pruning(read_dem()), 605, True, 'results/dem.png')
-#dataframeToImage(pruning(read_ndvi()), 1, True, 'results/ndvi.png')
-#dataframeToImage(pruning(read_slope()), 56, True, 'results/slope.png')
-
-
-
+#edges2 = edgeDetection(im2)
+#image2, contours2, hierarchy2 = findContoursCV(edges2)
+#drawContoursCV(image2, contours2, hierarchy2)
