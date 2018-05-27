@@ -4,17 +4,16 @@ This repository contains the concept and approaches to integrate human and techn
 
 ## Approaches
 ### Shapematching
-
+![Shapematching]()
 
 ### Colormatching
-
+![Colormatching]()
 
 ### Boostmatching
 ![Boostmatching](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/Boostmatching.png)
 The approach of Boostmatching combines several "Matching-Algorithms" to one Ensemble Framework. This is extensible to many more matching approaches.
 
 ### Convex Hull
-
 Three steps are needed for calculating the possible points using a convex hull approach:
 
 1. Compiling the C Program:
@@ -30,7 +29,9 @@ Three steps are needed for calculating the possible points using a convex hull a
 3. Execute the generate_convex_png.py script
 
 ## Getting Started
-
+* First, generate the png files by setting the generatePNGs() boolean to 'True' (afterwards change it back to 'False' to save computing time) 
+* Choose the method you want in the main.py file by changing the corresponding boolean value to 'True'.
+* The comments in the specific methods describe which parameters are required.
 
 
 ## Contributors
