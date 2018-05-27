@@ -102,7 +102,7 @@ def mergeFiles():
     print(os.path.dirname(os.path.realpath(__file__)))
     print(filename)
 
-    #return '/temp/Corine.txt.png'
+    return 'temp/Corine.txt.png_merged.png'
     targetFilename = ''.join([filename, '_', 'merged.png'])
     #targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
 

@@ -89,7 +89,7 @@
                 button.innerHTML = 'Merged';
                 var img = document.createElement("img");
                 img.setAttribute("src", xmlHttp.responseText);
-                img.addClass("m-1");
+                img.setAttribute("class", "m-1");
                 document.getElementById('merge-image').appendChild(img)
 
             } else {
@@ -97,7 +97,7 @@
             }
 
         }
-        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1=" + filename1, true); // true for asynchronous
+        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1=" + f1, true); // true for asynchronous
         xmlHttp.send(null);
         button.innerHTML = 'Merging'
     }
@@ -133,7 +133,7 @@
                 <h2>Transformation</h2>
             </div>
             <div class="row m-1">
-                <div id="merge-image text-center" class="container"></div>
+                <div id="merge-image" class="container text-center"></div>
             </div>
         </div>
     </div>
