@@ -5,6 +5,9 @@ from PIL import Image
 
 def dataframeToImage(dataframe, classRangeHigh, coninuus, filename):
 
+    if classRangeHigh:
+        pass
+
     min_x = 1000000
     max_x = 0
     min_y = 1000000
