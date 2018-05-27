@@ -16,11 +16,12 @@ This repository contains the concept and approaches to integrate human and techn
 The approach of Boostmatching combines several "Matching-Algorithms" to one Ensemble Framework. This is extensible to many more matching approaches.
 
 ### Convex Hull
+![Convex Hull](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/hull.png)
 Three steps are needed for calculating the possible points using a convex hull approach:
 
-1. Compiling the C Program:
+* Compiling the C Program:
     - g++ -std=c++1y convexhull.cpp#
-2. Executing the resulting binary:
+* Executing the resulting binary:
     - You need the two text files, containing x and y coordinates and the corresponding labels/ values in those text files
     - Machine Made File: machine.txt
     - Human Made File: human.txt
@@ -28,7 +29,7 @@ Three steps are needed for calculating the possible points using a convex hull a
     - Maximum Manhattan Distance between two points in order to be in a neighborhood: dist (default 800)
     - Output file: out.text (In its current form, the output file will consist of an unordered list of points with a cluster for each point, a single point can be included multiple times with different clusters)
     -  cat machine.txt human.txt |./a.out max dist > output.txt
-3. Execute the generate_convex_png.py script
+* Execute the generate_convex_png.py script
 
 ## Getting Started
 * First, generate the png files by setting the generatePNGs() boolean to 'True' (afterwards change it back to 'False' to save computing time) 
