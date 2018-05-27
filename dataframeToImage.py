@@ -37,6 +37,8 @@ def dataframeToImage(dataframe, filename):
     # Not True in general, but for this PoC
     if classRangeHigh > 42:
         continuous = True
+    elif classRangeHigh == 1:
+        continuous = True
     else:
         continuous = False
 
