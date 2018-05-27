@@ -3,10 +3,18 @@ from read_files import *
 import numpy
 from PIL import Image
 
-def dataframeToImage(dataframe, classRangeHigh, coninuus, filename):
+def dataframeToImage(dataframe, filename):
 
-    if classRangeHigh:
-        pass
+    classRangeHigh = 0
+    for i, row in dataframe.iterrows():
+        if int(row['class']) > classRangeHigh:
+            classRangeHigh = int(row['class'])
+
+    # Not True in general, but for this PoC
+    if classRangeHigh > 42:
+        coninuus = True
+    else:
+        coninuus = False
 
     min_x = 1000000
     max_x = 0
@@ -54,16 +62,16 @@ def dataframeToImage(dataframe, classRangeHigh, coninuus, filename):
 #df_geo = pruning(read_subjective1())
 #df_geo = read_subjective1()
 
-dataframeToImage(read_subjective1(), 12, False, 'results/subjective1.png')
-dataframeToImage(read_subjective2(), 12, False, 'results/subjective2.png')
-dataframeToImage(read_corine(), 41, False, 'results/corine.png')
+dataframeToImage(read_subjective1(), 'results/subjective1.png')
+dataframeToImage(read_subjective2(), 'results/subjective2.png')
+dataframeToImage(read_corine(), 'results/corine.png')
 
-dataframeToImage(pruning(read_aspect1()), 180, True, 'results/aspect1.png')
-dataframeToImage(pruning(read_aspect2()), 180, True, 'results/aspect2.png')
+#dataframeToImage(pruning(read_aspect1()), 180, True, 'results/aspect1.png')
+#dataframeToImage(pruning(read_aspect2()), 180, True, 'results/aspect2.png')
 
-dataframeToImage(pruning(read_dem()), 605, True, 'results/dem.png')
-dataframeToImage(pruning(read_ndvi()), 1, True, 'results/ndvi.png')
-dataframeToImage(pruning(read_slope()), 56, True, 'results/slope.png')
+#dataframeToImage(pruning(read_dem()), 605, True, 'results/dem.png')
+#dataframeToImage(pruning(read_ndvi()), 1, True, 'results/ndvi.png')
+#dataframeToImage(pruning(read_slope()), 56, True, 'results/slope.png')
 
 
 
