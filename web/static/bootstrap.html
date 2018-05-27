@@ -63,21 +63,21 @@
     <div class="container" style="float: left;width: 50%;">
         <div class="container">
             <input id="first-image-file" style="display: none;" type="file">
-            <button id="first-image-button" onclick="uploadFile('first')">Upload File 1</button>
+            <button type="button" class="btn btn-light" onclick="uploadFile('first')">Upload File 1</button>
         </div>
         <div class="container" id="first-image"></div>
     </div>
     <div class="container" style="float: right;width: 50%;">
         <div class="container">
             <input id="second-image-file" style="display: none;" type="file">
-            <button id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
+            <button type="button" class="btn btn-light" id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
         </div>
         <div class="container" id="second-image"></div>
     </div>
     <div class="container-fluid" style="width: 100%;clear: both;">
         <div class="container" style="width: 62%;margin: 0 auto;text-align: center;">
             <input id="merge-image-file" style="display: none;" type="file">
-            <button id="merge-image-button" style="margin: 50px auto;width: 62%;height: 50px;" onclick="uploadFile('merge')">MERGE</button>
+            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="uploadFile('merge')">MERGE</button>
             <div id="merge-image" class="container"></div>
         </div>
     </div>
