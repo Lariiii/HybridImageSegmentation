@@ -9,10 +9,8 @@ header {
 }
 
 #logo {
-    float: right;
-    margin: 20px 0 10px 0;
-    height: 90%;
-    width: 10%;
+    margin: 10px 10px 10px 0;
+    height: 90px;
 }
 
 header h1 {
@@ -21,8 +19,7 @@ header h1 {
 }
 
 #headline-container {
-    float: left;
-    width: 90%;
+    text-align: center;
 }
 
 footer div{

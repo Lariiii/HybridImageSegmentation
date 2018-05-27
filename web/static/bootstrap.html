@@ -77,6 +77,7 @@
         } else {
             button.innerHTML = 'Choose';
         }
+
     }
 
     function mergeFiles(f1, f2) {
@@ -97,6 +98,7 @@
             } else {
                 button.innerHTML = 'Try again!'
             }
+
         }
         xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1='" + filename1 + "'&f2='" + filename2 + "'", true); // true for asynchronous
         xmlHttp.send(null);
@@ -120,21 +122,21 @@
     <div class="row m-4">
         <div class="col-lg-6">
             <div class="row m-1">
-                <input id="first-image-file" style="display: none;" type="file" onchange="processFile('first')">
+                <button id="first-image-button" type="button" class="btn btn-light btn-block" onclick="uploadFile('first')">Upload
+                    File
+                </button>
             </div>
             <div class="row m-1">
-                <button id="first-image-button" type="button" class="btn btn-light btn-block" onclick="uploadFile('first')">Upload
-                    File 1
-                </button>
+                <input id="first-image-file" style="display: none;" type="file" onchange="processFile('first')">
+                <div class="container" id="first-image"></div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="row m-1">
-                <input id="second-image-file" style="display: none;" type="file" onchange="processFile('second')">
+                <h2>Transformation</h2>
             </div>
             <div class="row m-1">
-                <button id="second-image-button" type="button" class="btn btn-light btn-block" id="second-image-button"
-                    onclick="uploadFile('second')">Upload File 2</button>
+                <div id="merge-image" class="container"></div>
             </div>
         </div>
     </div>
@@ -144,9 +146,6 @@
                 <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block"
                     onclick="uploadFile('merge')">MERGE
                 </button>
-            </div>
-            <div class="row m-1">
-                <div id="merge-image" class="container"></div>
             </div>
         </div>
     </div>
