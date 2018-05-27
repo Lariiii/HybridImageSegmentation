@@ -2,8 +2,7 @@ from dataframeToImage import dataframeToImage
 from dataPreprocessing import *
 import approach_shapeMatching
 import approach_colorMatching
-
-
+import approach_boostMatching
 
 def main():
     # Choose the approach you want to execute
@@ -11,6 +10,7 @@ def main():
     shapeMatching = True
     colorMatching = False
     subjectiveMatching = False
+    boostMatching = False
 
     # Generate the necessary png pictures for computer vision (cv) processing
     if generatePNGs:
@@ -29,7 +29,7 @@ def main():
     if shapeMatching:
         # Choose whatever data you want to correlate using computer vision
         # Choose from the PNG's above
-        _ = approach_shapeMatching.run('results/corine.png', subjectiveIntegration=False, show=True)
+        _ = approach_shapeMatching.run('results/corine.png', subjectiveIntegration=False, show=False, outputPath="test.png")
 
     if subjectiveMatching:
         # Choose a subjective picture e.g. subjective1.png or subjective2.png
@@ -39,6 +39,10 @@ def main():
     if colorMatching:
         # No possible data options
         _ = approach_colorMatching.run(show=True)
+
+    if boostMatching:
+        # Choose any data you want from the pngs
+        _ = approach_boostMatching.run("results/corine.png")
 
 
 if __name__ == "__main__":

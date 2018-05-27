@@ -10,12 +10,12 @@ def showImage(image):
 def edgeDetection(image):
     # Find Edges
     image = cv.Canny(image,100,600)
-    #showImage(image)
+    showImage(image)
 
     # Blur Image
     kernel = np.ones((3, 3), np.float32) / 25
     image = cv.filter2D(image, -1, kernel)
-    #showImage(image)
+    showImage(image)
 
     # Threshold Image
     #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
@@ -25,10 +25,12 @@ def edgeDetection(image):
     return image
 
 def findContoursCV(edges, adaptive=True):
+    # Helper Function to find Contours
     image, contours, hierarchy = cv.findContours(edges, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
     return image, contours, hierarchy
 
 def drawContoursCV(image, contours):
+    # Helper Function to draw contours
     cv.drawContours(
         image=image,
         contours=contours,
