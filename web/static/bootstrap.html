@@ -97,7 +97,7 @@
             }
 
         }
-        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1='" + filename1, true); // true for asynchronous
+        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1=" + filename1, true); // true for asynchronous
         xmlHttp.send(null);
         button.innerHTML = 'Merging'
     }

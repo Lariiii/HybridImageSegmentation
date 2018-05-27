@@ -1,7 +1,7 @@
 import os
 
 from flask import *
-import json
+import approach_shapeMatching
 
 from werkzeug.utils import secure_filename
 
@@ -70,7 +70,6 @@ def upload():
 
 
     if file.filename == '':
-        #flash('No selected file')
         return redirect(url_for('root'))
 
     if file and allowed_file(file.filename):
@@ -99,14 +98,20 @@ def upload():
 @app.route('/mergefiles')
 def mergeFiles():
     filename1 = request.args.get('f1')
-
+    basePath = os.path.dirname(os.path.realpath(__file__))
+    print(os.path.dirname(os.path.realpath(__file__)))
     print(filename1)
 
-    return '/temp/Corine.txt.png'
+    #return '/temp/Corine.txt.png'
     targetFilename = ''.join([filename1, '_', 'merged.png'])
-    targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
+    #targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
 
-    approach_shapeMatching.run(filename1, targetFilepath, subjectiveIntegration=False, show=True)
+    filename1 = basePath + '/' + filename1
+    targetFilepath = basePath + '/' + targetFilename
+    print(filename1)
+    print(targetFilepath)
+
+    approach_shapeMatching.run(filename1, subjectiveIntegration=True, show=False, outputPath=targetFilepath)
 
     print('Transformed image to ', targetFilename)
     response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
