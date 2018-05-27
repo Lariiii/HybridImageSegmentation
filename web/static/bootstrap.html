@@ -1,50 +1,104 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap_files/bootstrap.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
 
     <title>Imager</title>
+
 </head>
 <body style="background-color: lightcyan;">
-<div class="container-fluid" style="/*! height: 90px; */background-color: #00589c;">
-    <div class="container" style="height: 90px;">
-        <div class="container" style="float: right;height: 100%;width: 10%;">
-            <img style="max-height: 100%;" src="bootstrap_files/UFZ_colored_withoutBlack.png"></div>
-        <div class="container" style="float: left;width: 90%;/*! line-height: 90px; */"><h1 style="color: whitesmoke;line-height: 90px;">Helmholtz Centre for Environmental Research</h1></div>
-    </div>
-</div>
+<script>
+    function uploadFile(placeIndicator) {
+        var f = document.getElementById(placeIndicator.concat('-image-file'));
+        var button = document.getElementById(placeIndicator.concat('-image-button'));
+        f.click();
+        var file = f.files[0];
+        var formData = new FormData();
+        formData.append('file', file, file.name);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://localhost:5000/uploaddata', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    button.innerHTML = 'Uploaded';
+                    var img = document.createElement("img");
+                    img.setAttribute("src", xhr.response);
+                    document.getElementById(placeIndicator.concat('-image')).appendChild(img)
+                } else {
+                    alert('An error occurred!');
+                }
+            }
+        }
+        button.innerHTML = 'Uploading';
+        xhr.send(formData);
+    }
+</script>
+<header class="container-fluid">
+        <div class="container" style="height: 90px;">
+            <div class="container" id="logo">
+                <img style="max-height: 100%;" src="bootstrap_files/UFZ_colored_withoutBlack.png"></div>
+            <div class="container" style="float: left;width: 90%;/*! line-height: 90px; */"><h1
+                    style="color: whitesmoke;line-height: 90px;">Helmholtz Centre for Environmental Research</h1></div>
+        </div>
+</header>
 <div class="container" style="padding-top: 30px;">
     <div class="container" style="float: left;width: 50%;">
         <div class="container">
-  <input id="first-image-file" type="file">
-  <button id="first-image-button" onclick="document.getElementById('first-image-file').click()">Upload To Hell</button>
-</div>
-        <div class="container" id="left-image"></div>
+            <input id="first-image-file" style="display: none;" type="file">
+            <button id="first-image-button" onclick="uploadFile('first')">Upload File 1</button>
+        </div>
+        <div class="container" id="first-image"></div>
     </div>
-    <div class="container" style="float: right;width: 50%;"></div>
+    <div class="container" style="float: right;width: 50%;">
+        <div class="container">
+            <input id="second-image-file" style="display: none;" type="file">
+            <button id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
+        </div>
+        <div class="container" id="second-image"></div>
+    </div>
     <div class="container-fluid" style="width: 100%;clear: both;">
         <div class="container" style="width: 62%;margin: 0 auto;text-align: center;">
-            <button id="merge-button" style="margin: 50px auto;width: 62%;height: 50px;">MERGE</button>
-            <div class="container"></div>
+            <input id="merge-image-file" style="display: none;" type="file">
+            <button id="merge-image-button" style="margin: 50px auto;width: 62%;height: 50px;" onclick="uploadFile('merge')">MERGE</button>
+            <div id="merge-image" class="container"></div>
         </div>
     </div>
 </div>
 
-<footer style="width: 100%;height: 70px;background-color: #00589c;line-height: 70px;text-align: center;color: whitesmoke;">
-    Imprint &amp; Data Policy
-    <div></div>
-</footer>
+    <footer style="width: 100%;height: 70px;background-color: #00589c;line-height: 70px;text-align: center;color: whitesmoke;">
+        Imprint &amp; Data Policy
+        <div></div>
+    </footer>
 
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="bootstrap_files/jquery-3.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="bootstrap_files/popper.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="bootstrap_files/bootstrap.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="bootstrap_files/jquery-3.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="bootstrap_files/popper.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="bootstrap_files/bootstrap.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
-</body></html>
+</body>
+</html>

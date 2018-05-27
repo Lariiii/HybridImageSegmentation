@@ -1,0 +1,16 @@
+body {
+    font-family: "Raleway", sans-serif;
+    background-color: lightcyan;
+}
+
+header {
+    background-color: #00589c;
+    height: 120px;
+}
+
+#logo {
+    float: right;
+    margin: 20px 0 10px 0;
+    height: 90%;
+    width: 10%;
+}
