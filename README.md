@@ -4,10 +4,12 @@ This repository contains the concept and approaches to integrate human and techn
 
 ## Approaches
 ### Shapematching
-![Shapematching]()
+![Shapematching1](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/shapematching1.png)
+![Shapematching2](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/shapematching2.png)
+![Shapematching3](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/shapematching3.png)
 
 ### Colormatching
-![Colormatching]()
+![Colormatching](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/colormatching.png)
 
 ### Boostmatching
 ![Boostmatching](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/Boostmatching.png)
