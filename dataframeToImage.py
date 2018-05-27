@@ -59,9 +59,3 @@ def dataframeToImage(dataframe, filename):
 
     image = Image.fromarray(data)
     image.save(filename)
-
-
-
-
-
-
