@@ -26,13 +26,13 @@
 </head>
 <body>
 <script>
-    var filename1 = null, filename2 = null;
+    var filename1 = null;
 
     function uploadFile(placeIndicator) {
         var button = document.getElementById(placeIndicator.concat('-image-button'));
 
-        if (placeIndicator != 'first' && placeIndicator != 'second') {
-            mergeFiles(filename1, filename2)
+        if (placeIndicator != 'first') {
+            mergeFiles(filename1)
             return
         }
         var f = document.getElementById(placeIndicator.concat('-image-file'));
@@ -44,12 +44,6 @@
         var f = document.getElementById(placeIndicator.concat('-image-file'));
         if (f.files.length > 0) {
             var file = f.files[f.files.length - 1];
-            if (placeIndicator == 'first') {
-                filename1=file.name;
-            }
-            else if (placeIndicator == 'second') {
-                filename2=file.name;
-            }
             var formData = new FormData();
             formData.append('file', file, file.name);
             var xhr = new XMLHttpRequest();
@@ -59,7 +53,9 @@
                     if (xhr.status === 200) {
                         button.innerHTML = 'Uploaded';
                         var img = document.createElement("img");
-                        img.setAttribute("src", xhr.response);
+                        filename1 = xhr.response
+                        img.setAttribute("src", filename1);
+                        filename1 = filename1.substring(1)
                         document.getElementById(placeIndicator.concat('-image')).appendChild(img)
                     } else {
                         alert('An error occurred!');
@@ -80,9 +76,9 @@
 
     }
 
-    function mergeFiles(f1, f2) {
+    function mergeFiles(f1) {
         var button = document.getElementById('merge-image-button');
-        if (f1 === null || f2 === null) {
+        if (f1 === null) {
             button.innerHTML = 'Too early'
             return
         }
@@ -93,6 +89,7 @@
                 button.innerHTML = 'Merged';
                 var img = document.createElement("img");
                 img.setAttribute("src", xmlHttp.responseText);
+                img.addClass("m-1");
                 document.getElementById('merge-image').appendChild(img)
 
             } else {
@@ -100,7 +97,7 @@
             }
 
         }
-        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1='" + filename1 + "'&f2='" + filename2 + "'", true); // true for asynchronous
+        xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1='" + filename1, true); // true for asynchronous
         xmlHttp.send(null);
         button.innerHTML = 'Merging'
     }
@@ -128,7 +125,7 @@
             </div>
             <div class="row m-1">
                 <input id="first-image-file" style="display: none;" type="file" onchange="processFile('first')">
-                <div class="container" id="first-image"></div>
+                <div class="container text-center" id="first-image"></div>
             </div>
         </div>
         <div class="col-lg-6">
@@ -136,7 +133,7 @@
                 <h2>Transformation</h2>
             </div>
             <div class="row m-1">
-                <div id="merge-image" class="container"></div>
+                <div id="merge-image text-center" class="container"></div>
             </div>
         </div>
     </div>
@@ -144,7 +141,7 @@
         <div class="col-sm-12">
             <div class="row m-1">
                 <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block"
-                    onclick="uploadFile('merge')">MERGE
+                    onclick="uploadFile('merge')">TRANSFORM
                 </button>
             </div>
         </div>
