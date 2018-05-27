@@ -87,13 +87,13 @@ def upload():
         df_pruned = pruning(df)
         dataframeToImage(df_pruned, targetFilepath)
 
-        response = {
-            'renderedImage': '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
-        }
+
+        response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
+
 
         # call Marvin, get back image path
 
-        return json.dumps(response)
+        return response
     return get_response
 
 if __name__ == "__main__":
