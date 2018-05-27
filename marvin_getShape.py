@@ -7,15 +7,30 @@ import copy
 import cv2 as cv
 from get_shapes import edgeDetection, findContoursCV, drawContoursCV
 
-im1 = cv2.imread('results/subjective1.png')
-edges1 = edgeDetection(im1)
-image1, contours1, hierarchy1 = findContoursCV(edges1)
-drawContoursCV(image1, contours1, hierarchy1)
-
-im2 = cv2.imread('results/corine.png')
+im2 = cv2.imread('results/dem.png')
 edges2 = edgeDetection(im2)
 image2, contours2, hierarchy2 = findContoursCV(edges2)
 drawContoursCV(image2, contours2, hierarchy2)
+
+img_part1 = cv2.imread('results/subjective2.png')
+img_part2 = cv2.imread('results/subjective1.png')
+edges_part1 = edgeDetection(img_part1)
+edges_part2 = edgeDetection(img_part2)
+edges1 = cv2.addWeighted(edges_part1,0.5,edges_part2,0.5,0)
+image1, contours1, hierarchy1 = findContoursCV(edges1)
+drawContoursCV(image1, contours1, hierarchy1)
+
+
+
+#edges1[edges1[:, :, 1:].all(axis=-1)] = 0
+#edges2[edges2[:, :, 1:].all(axis=-1)] = 0
+
+#dst = cv2.addWeighted(edges1, 1, edges2, 1, 0)
+#cv2.imshow("abc", dst)
+
+
+cv2.imshow("abc1", edges1)
+cv2.imshow("abc2", edges2)
 
 def drawShape(shapes, edges, name="a"):
     #data = numpy.zeros((431, 337, 3), dtype=numpy.uint8)
