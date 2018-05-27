@@ -1,22 +1,21 @@
 import cv2
 import numpy
+from PIL import Image
 
 from get_shapes import edgeDetection, findContoursCV, drawContoursCV
+from read_files import read_subjective2, read_subjective1
 
-subjective_1 = cv2.imread('results/subjective1.png')
-subjective_2 = cv2.imread('results/subjective2.png')
-filename = 'test'
+filename = 'results/testColor.png'
 
-def dataframeToImageColorMerge(dataframe1, dataframe2, classRangeHigh, filename):
-
+def dataframePreprocessing(dataframe):
     min_x = 1000000
     max_x = 0
     min_y = 1000000
     max_y = 0
 
-    for i, row in dataframe1.iterrows():
-        dataframe1.set_value(i, 'x', row['x'] / 100)
-        dataframe1.set_value(i, 'y', row['y'] / 100)
+    for i, row in dataframe.iterrows():
+        dataframe.set_value(i, 'x', row['x'] / 100)
+        dataframe.set_value(i, 'y', row['y'] / 100)
         if row['x'] < min_x:
             min_x = row['x']
         if row['x'] > max_x:
@@ -31,24 +30,35 @@ def dataframeToImageColorMerge(dataframe1, dataframe2, classRangeHigh, filename)
         dataframe.set_value(i, 'x', row['x'] - min_x)
         dataframe.set_value(i, 'y', row['y'] - min_y)
 
+    return dataframe
+
+def dataframeToImageColorMerge(dataframe1, dataframe2, filename):
+    classRangeHigh = 0
+    for i, row in dataframe1.iterrows():
+        if int(row['class']) > classRangeHigh:
+            classRangeHigh = int(row['class'])
+
+    dataframe1 = dataframePreprocessing(dataframe1)
+    dataframe2 = dataframePreprocessing(dataframe2)
+
+    im2 = cv2.imread('results/subjective1.png')
+    edges2 = edgeDetection(im2)
+
     data = numpy.zeros((431, 337, 3), dtype=numpy.uint8)
+    data = edges2
 
-    colors = []
-    for i in range(classRangeHigh):
-        colors.append([numpy.random.randint(low=0, high=255), numpy.random.randint(low=0, high=255),
-                       numpy.random.randint(low=0, high=255)])
+    for i in range(len(dataframe1)):
+        df1_class = dataframe1.iloc[i]['class']
+        df2_class = dataframe2.iloc[i]['class']
 
-# über beide dataframes iterieren
-    for i, row in dataframe.iterrows():
-        # print(""+str(row['x'])+" "+str(row['y']))
-        print(int(row['class']) - 1)
-        #if gleiche farben dann einfärben
-        data[int(row['x'])][int(row['y'])] = colors[int(row['class']) - 1]
+        if df1_class == df2_class:
+            print()
+            data[int(dataframe1.iloc[i]['x'])][int(dataframe1.iloc[i]['y'])] = 255
 
     image = Image.fromarray(data)
     image.save(filename)
 
-dataframeToImageColorMerge(subjective_1, subjective_2, 12, filename)
+dataframeToImageColorMerge(read_subjective1(), read_subjective2(), filename)
 
 
 #edges2 = edgeDetection(im2)

@@ -7,7 +7,7 @@ import copy
 import cv2 as cv
 from get_shapes import edgeDetection, findContoursCV, drawContoursCV
 
-im2 = cv2.imread('results/dem.png')
+im2 = cv2.imread('results/corine.png')
 edges2 = edgeDetection(im2)
 image2, contours2, hierarchy2 = findContoursCV(edges2)
 drawContoursCV(image2, contours2, hierarchy2)
