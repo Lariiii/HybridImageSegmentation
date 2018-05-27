@@ -3,6 +3,7 @@ import cv2
 import numpy
 import math
 from PIL import Image
+import copy
 import cv2 as cv
 from get_shapes import edgeDetection, findContoursCV, drawContoursCV
 
@@ -11,7 +12,7 @@ edges1 = edgeDetection(im1)
 image1, contours1, hierarchy1 = findContoursCV(edges1)
 drawContoursCV(image1, contours1, hierarchy1)
 
-im2 = cv2.imread('results/subjective2.png')
+im2 = cv2.imread('results/corine.png')
 edges2 = edgeDetection(im2)
 image2, contours2, hierarchy2 = findContoursCV(edges2)
 drawContoursCV(image2, contours2, hierarchy2)
@@ -32,6 +33,10 @@ def drawShape(shapes, edges, name="a"):
     #cv.imwrite("output/shape"+str(name)+".png", numpy.asarray(image))
     #cv.waitKey(0)
 
+def drawHeatmap(heatmap, shapes):
+    heatmap = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes], color=(255, 255, 0))
+    return heatmap
+
 def euclideanDistance(contour1, contour2):
     org_M = cv2.moments(contour1)
     org_cX = int(org_M["m10"] / org_M["m00"])
@@ -46,15 +51,17 @@ def euclideanDistance(contour1, contour2):
 
 contoursSmallOrg = []
 for shape in contours1:
-    if len(shape) > 8:
+    if len(shape) > 5:
         contoursSmallOrg.append(shape)
 print(len(contoursSmallOrg))
 
 contoursSmallDest = []
 for shape in contours2:
-    if len(shape) > 8:
+    if len(shape) > 5:
         contoursSmallDest.append(shape)
 print(len(contoursSmallDest))
+
+edgeHeatmap = copy.deepcopy(edges1)
 
 for i, org_contour in enumerate(contoursSmallOrg):
     #drawShape(org_contour, i)
@@ -63,9 +70,14 @@ for i, org_contour in enumerate(contoursSmallOrg):
             ret = cv2.matchShapes(org_contour, dest_contour, 1, 0.0)
             #print(ret)
             if ret < 1.25:
+                drawHeatmap(edgeHeatmap, dest_contour)
                 plt.subplot(121), plt.imshow(drawShape(org_contour, edges1), cmap='gray')
                 plt.title('Original Shape'), plt.xticks([]), plt.yticks([])
                 plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')
                 plt.title('Matched Shape'), plt.xticks([]), plt.yticks([])
-                plt.show()
+                #plt.show()
                 plt.clf()
+
+plt.imshow(edgeHeatmap)
+plt.show()
+
