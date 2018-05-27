@@ -1,6 +1,16 @@
 # HybridImageSegmentation
 
-## Data Types
+## Approaches
+### Shapematching
 
-DEM = Digital Elevation Map
-CORINE = Land Classification
+
+### Colormatching
+
+
+### Subjective Matching
+
+
+### Boostmatching
+
+
+### Convex Hull
