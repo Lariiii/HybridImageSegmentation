@@ -52,7 +52,6 @@ def dataframeToImage(dataframe, filename):
 
         for i, row in dataframe.iterrows():
             # print(""+str(row['x'])+" "+str(row['y']))
-            print(int(row['class']) - 1)
             data[int(row['x'])][int(row['y'])] = colors[int(row['class']) - 1]
 
     image = Image.fromarray(data)
