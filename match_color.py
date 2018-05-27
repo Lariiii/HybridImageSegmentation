@@ -52,7 +52,6 @@ def dataframeToImageColorMerge(dataframe1, dataframe2, filename):
         df2_class = dataframe2.iloc[i]['class']
 
         if df1_class == df2_class:
-            print()
             data[int(dataframe1.iloc[i]['x'])][int(dataframe1.iloc[i]['y'])] = 255
 
     image = Image.fromarray(data)

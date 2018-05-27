@@ -12,7 +12,7 @@ edges2 = edgeDetection(im2)
 image2, contours2, hierarchy2 = findContoursCV(edges2)
 drawContoursCV(image2, contours2, hierarchy2)
 
-img_part1 = cv2.imread('results/subjective2.png')
+img_part1 = cv2.imread('results/subjective1.png')
 img_part2 = cv2.imread('results/subjective1.png')
 edges_part1 = edgeDetection(img_part1)
 edges_part2 = edgeDetection(img_part2)
@@ -48,8 +48,10 @@ def drawShape(shapes, edges, name="a"):
     #cv.imwrite("output/shape"+str(name)+".png", numpy.asarray(image))
     #cv.waitKey(0)
 
-def drawHeatmap(heatmap, shapes):
-    heatmap = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes], color=(255, 255, 0))
+def drawHeatmap(heatmap, shapes_1, shapes_2):
+    heatmap1 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_1], color=256)
+    heatmap2 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_2], color=128)
+    heatmap = cv2.addWeighted(heatmap1, 0.5, heatmap2, 0.5, 0)
     return heatmap
 
 def euclideanDistance(contour1, contour2):
@@ -85,7 +87,7 @@ for i, org_contour in enumerate(contoursSmallOrg):
             ret = cv2.matchShapes(org_contour, dest_contour, 1, 0.0)
             #print(ret)
             if ret < 1.25:
-                drawHeatmap(edgeHeatmap, dest_contour)
+                drawHeatmap(edgeHeatmap, dest_contour, org_contour)
                 plt.subplot(121), plt.imshow(drawShape(org_contour, edges1), cmap='gray')
                 plt.title('Original Shape'), plt.xticks([]), plt.yticks([])
                 plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')
