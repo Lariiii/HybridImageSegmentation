@@ -13,7 +13,7 @@ def edgeDetection(image, outputName='results/edge'):
     #plt.show()
 
     # Blur Image
-    kernel = np.ones((5, 5), np.float32) / 25
+    kernel = np.ones((3, 3), np.float32) / 25
     image = cv.filter2D(image, -1, kernel)
     #plt.imshow(image)
     #plt.show()
