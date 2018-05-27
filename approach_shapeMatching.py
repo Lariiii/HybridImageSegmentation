@@ -37,16 +37,19 @@ def filterContours(contours):
     print("Contours Length: "+str(len(contoursSmall)))
     return contoursSmall
 
-
-def run():
+def run(filePath, subjectiveIntegration, show):
     #ToDo: Refactor
-    im2 = cv2.imread('results/corine.png')
+    im2 = cv2.imread(filePath)
     edges2 = edgeDetection(im2)
     image2, contours2, hierarchy2 = findContoursCV(edges2)
     drawContoursCV(image2, contours2)
 
-    img_part1 = cv2.imread('results/subjective1.png')
-    img_part2 = cv2.imread('results/subjective2.png')
+    if subjectiveIntegration:
+        img_part1 = cv2.imread('results/subjective1.png')
+        img_part2 = cv2.imread('results/subjective1.png')
+    else:
+        img_part1 = cv2.imread('results/subjective1.png')
+        img_part2 = cv2.imread('results/subjective2.png')
     edges_part1 = edgeDetection(img_part1)
     edges_part2 = edgeDetection(img_part2)
     edges1 = cv2.addWeighted(edges_part1,0.5,edges_part2,0.5,0)
@@ -60,6 +63,7 @@ def run():
     contoursSmallDest = filterContours(contours2)
 
     edgeHeatmap = copy.deepcopy(edges1)
+    heatmapShapes = []
 
     for i, org_contour in enumerate(contoursSmallOrg):
         for dest_contour in contoursSmallDest:
@@ -67,13 +71,17 @@ def run():
                 ret = cv2.matchShapes(org_contour, dest_contour, 1, 0.0)
                 if ret < 1.25:
                     drawHeatmap(edgeHeatmap, dest_contour, org_contour)
-                    plt.subplot(121), plt.imshow(drawShape(org_contour, edges1), cmap='gray')
-                    plt.title('Original Shape'), plt.xticks([]), plt.yticks([])
-                    plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')
-                    plt.title('Matched Shape'), plt.xticks([]), plt.yticks([])
-                    #plt.show()
-                    plt.clf()
+                    if show:
+                        heatmapShapes.append((org_contour, dest_contour))
+                        plt.subplot(121), plt.imshow(drawShape(org_contour, edges1), cmap='gray')
+                        plt.title('Original Shape'), plt.xticks([]), plt.yticks([])
+                        plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')
+                        plt.title('Matched Shape'), plt.xticks([]), plt.yticks([])
+                        plt.show()
+                        plt.clf()
 
-    plt.imshow(edgeHeatmap)
-    plt.show()
+    if show:
+        plt.imshow(edgeHeatmap)
+        plt.show()
 
+    return heatmapShapes
