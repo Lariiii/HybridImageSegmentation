@@ -9,33 +9,9 @@
     <link rel="stylesheet" href="bootstrap_files/bootstrap.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Imager</title>
-    
 </head>
 <body style="background-color: lightcyan;">
-<script>
-        function uploadFile() {
-    var f=document.getElementById('first-image-file');
-    var button=document.getElementById('first-image-button')
-	f.click(); 
-	var file=f.files[0]; 
-	var formData = new FormData();
-	formData.append('file', file, file.name);
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', 'uploaddata', true);
-	xhr.onload = function () {
-	  if (xhr.status === 200) {
-	    button.innerHTML = xhr.response//'Uploaded';
-
-
-	  } else {
-	    alert('An error occurred!');
-	  }
-	};
-	button.innerHTML = 'Uploading'
-	xhr.send(formData);
-}
-    </script>
-    <div class="container-fluid" style="/*! height: 90px; */background-color: #00589c;">
+<div class="container-fluid" style="/*! height: 90px; */background-color: #00589c;">
     <div class="container" style="height: 90px;">
         <div class="container" style="float: right;height: 100%;width: 10%;">
             <img style="max-height: 100%;" src="bootstrap_files/UFZ_colored_withoutBlack.png"></div>
@@ -45,8 +21,8 @@
 <div class="container" style="padding-top: 30px;">
     <div class="container" style="float: left;width: 50%;">
         <div class="container">
-  <input id="first-image-file" style="display: none;" type="file">
-  <button id="first-image-button" onclick="uploadFile()">Upload To Hell</button>
+  <input id="first-image-file" type="file">
+  <button id="first-image-button" onclick="document.getElementById('first-image-file').click()">Upload To Hell</button>
 </div>
         <div class="container" id="left-image"></div>
     </div>

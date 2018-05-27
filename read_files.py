@@ -54,6 +54,6 @@ def read_generic(filename):
     else:
         columns = ['x', 'y']
         for i in range(columnCount-2):
-            columns += 'm' + i
+            columns.append(''.join(['m' + str(i)]))
     data.columns = columns
     return data
