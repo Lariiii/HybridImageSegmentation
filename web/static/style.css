@@ -1,0 +1,28 @@
+body {
+    font-family: "Raleway", sans-serif;
+    background-color: lightcyan;
+}
+
+header {
+    background-color: #00589c;
+    height: 120px;
+}
+
+#logo {
+    margin: 10px 10px 10px 0;
+    height: 90px;
+}
+
+header h1 {
+    color: whitesmoke;
+    line-height: 120px;
+}
+
+#headline-container {
+    text-align: center;
+}
+
+footer div{
+    width:100%;
+    text-align: center;
+}

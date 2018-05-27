@@ -82,19 +82,36 @@ def upload():
         targetFilename = ''.join(filename + '.png')
         targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
 
-        print('Store image to ', targetFilename)
-        df = read_generic(filepath)
-        df_pruned = pruning(df)
-        dataframeToImage(df_pruned, targetFilepath)
+        targetUrl = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
 
-        response = {
-            'renderedImage': '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
-        }
+        if not os.path.isfile(targetFilepath):
+            print('Store image to ', targetFilename)
+            df = read_generic(filepath)
+            df_pruned = pruning(df)
+            dataframeToImage(df_pruned, targetFilepath)
+        response = targetUrl
 
         # call Marvin, get back image path
 
-        return json.dumps(response)
+        return response
     return get_response
+
+@app.route('/mergefiles')
+def mergeFiles():
+    filename1 = request.args.get('f1')
+
+    print(filename1)
+
+    return '/temp/Corine.txt.png'
+    targetFilename = ''.join([filename1, '_', 'merged.png'])
+    targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
+
+    approach_shapeMatching.run(filename1, targetFilepath, subjectiveIntegration=False, show=True)
+
+    print('Transformed image to ', targetFilename)
+    response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
+    return response
+
 
 if __name__ == "__main__":
     app.run()
