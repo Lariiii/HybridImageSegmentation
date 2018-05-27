@@ -1,5 +1,7 @@
 # HybridImageSegmentation
 
+This repository contains the concept and approaches to integrate human and technically sensed images into one segmented image.
+
 ## Approaches
 ### Shapematching
 

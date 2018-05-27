@@ -118,23 +118,21 @@
     <div class="row m-4">
         <div class="col-lg-6">
             <div class="row m-1">
-                <input id="first-image-file" style="display: none;" type="file" onchange="processFile('first')">
-                <div class="container" id="first-image"></div>
+                <button id="first-image-button" type="button" class="btn btn-light btn-block" onclick="uploadFile('first')">Upload
+                    File
+                </button>
             </div>
             <div class="row m-1">
-                <button id="first-image-button" type="button" class="btn btn-light btn-block" onclick="uploadFile('first')">Upload
-                    File 1
-                </button>
+                <input id="first-image-file" style="display: none;" type="file" onchange="processFile('first')">
+                <div class="container" id="first-image"></div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="row m-1">
-                <input id="second-image-file" style="display: none;" type="file" onchange="processFile('second')">
-                <div class="container" id="second-image"></div>
+                <h2>Transformation</h2>
             </div>
             <div class="row m-1">
-                <button type="button" class="btn btn-light btn-block" id="second-image-button"
-                    onclick="uploadFile('second')">Upload File 2</button>
+                <div id="merge-image" class="container"></div>
             </div>
         </div>
     </div>
@@ -144,9 +142,6 @@
                 <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block"
                     onclick="uploadFile('merge')">TRANSFORM
                 </button>
-            </div>
-            <div class="row m-1">
-                <div id="merge-image" class="container"></div>
             </div>
         </div>
     </div>
