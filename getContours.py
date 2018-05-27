@@ -10,12 +10,12 @@ def showImage(image):
 def edgeDetection(image):
     # Find Edges
     image = cv.Canny(image,100,600)
-    showImage(image)
+    #showImage(image)
 
     # Blur Image
     kernel = np.ones((3, 3), np.float32) / 25
     image = cv.filter2D(image, -1, kernel)
-    showImage(image)
+    #showImage(image)
 
     # Threshold Image
     #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
