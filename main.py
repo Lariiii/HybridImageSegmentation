@@ -1,19 +1,18 @@
 from dataframeToImage import dataframeToImage
-from read_files import *
 from dataPreprocessing import *
-from getContours import *
 import approach_shapeMatching
 import approach_colorMatching
 
 
 
 def main():
-    # Data Reading
-    generatePNGs = True
-    shapeMatching = False
+    # Choose the approach you want to execute
+    generatePNGs = False
+    shapeMatching = True
     colorMatching = False
     subjectiveMatching = False
 
+    # Generate the necessary png pictures for computer vision (cv) processing
     if generatePNGs:
         dataframeToImage(read_subjective1(), 'results/subjective1.png')
         dataframeToImage(read_subjective2(), 'results/subjective2.png')
@@ -26,15 +25,20 @@ def main():
         dataframeToImage(pruning(read_ndvi()), 'results/ndvi.png')
         dataframeToImage(pruning(read_slope()), 'results/slope.png')
 
+
     if shapeMatching:
+        # Choose whatever data you want to correlate using computer vision
+        # Choose from the PNG's above
         _ = approach_shapeMatching.run('results/corine.png', subjectiveIntegration=False, show=True)
 
     if subjectiveMatching:
-        _ = approach_shapeMatching.run('results/subjective2.png', subjectiveIntegration=True, show=True)
+        # Choose a subjective picture e.g. subjective1.png or subjective2.png
+        # Most reasonable results for subjective1.png
+        _ = approach_shapeMatching.run('results/subjective1.png', subjectiveIntegration=True, show=True)
 
     if colorMatching:
+        # No possible data options
         _ = approach_colorMatching.run(show=True)
-
 
 
 if __name__ == "__main__":

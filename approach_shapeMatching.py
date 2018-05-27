@@ -13,8 +13,8 @@ def drawShape(shapes, edges):
 
 def drawHeatmap(heatmap, shapes_1, shapes_2):
     heatmap1 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_1], color=100)
-    heatmap2 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_2], color=50)
-    heatmap = heatmap1 + heatmap2
+    #heatmap2 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_2], color=50)
+    heatmap = heatmap1# + heatmap2
     return heatmap
 
 def euclideanDistance(contour1, contour2):
@@ -46,8 +46,8 @@ def run(filePath, subjectiveIntegration, show):
         drawContoursCV(image2, contours2)
 
     if subjectiveIntegration:
-        img_part1 = cv2.imread('results/subjective1.png')
-        img_part2 = cv2.imread('results/subjective1.png')
+        img_part1 = cv2.imread('results/subjective2.png')
+        img_part2 = cv2.imread('results/subjective2.png')
     else:
         img_part1 = cv2.imread('results/subjective1.png')
         img_part2 = cv2.imread('results/subjective2.png')
@@ -80,7 +80,7 @@ def run(filePath, subjectiveIntegration, show):
                         plt.title('Original Shape'), plt.xticks([]), plt.yticks([])
                         plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')
                         plt.title('Matched Shape'), plt.xticks([]), plt.yticks([])
-                        plt.show()
+                        #plt.show()
                         plt.clf()
 
     if show:
