@@ -99,16 +99,16 @@ def upload():
 @app.route('/mergefiles')
 def mergeFiles():
     filename1 = request.args.get('f1')
-    filename2 = request.args.get('f2')
 
     print(filename1)
-    print(filename2)
+
     return '/temp/Corine.txt.png'
-    targetFilename = ''.join([filename1, '_', filename2, 'merged.png'])
+    targetFilename = ''.join([filename1, '_', 'merged.png'])
     targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
 
+    approach_shapeMatching.run(filename1, targetFilepath, subjectiveIntegration=False, show=True)
 
-    print('Store image to ', targetFilename)
+    print('Transformed image to ', targetFilename)
     response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
     return response
 
