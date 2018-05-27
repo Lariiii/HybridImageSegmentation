@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -28,16 +29,26 @@
     var filename1 = null, filename2 = null;
 
     function uploadFile(placeIndicator) {
-        var f = document.getElementById(placeIndicator.concat('-image-file'));
         var button = document.getElementById(placeIndicator.concat('-image-button'));
+
+        if (placeIndicator != 'first' && placeIndicator != 'second') {
+            mergeFiles(filename1, filename2)
+            return
+        }
+        var f = document.getElementById(placeIndicator.concat('-image-file'));
         f.click();
+    }
+
+    function processFile(placeIndicator) {
+        var button = document.getElementById(placeIndicator.concat('-image-button'));
+        var f = document.getElementById(placeIndicator.concat('-image-file'));
         if (f.files.length > 0) {
-            var file = f.files[0];
-            if (placeIndicator == 'first') filename1=file.name;
-            else if (placeIndicator == 'second') filename2=file.name;
-            else {
-                mergeFiles(filename1, filename2)
-                return
+            var file = f.files[f.files.length - 1];
+            if (placeIndicator == 'first') {
+                filename1=file.name;
+            }
+            else if (placeIndicator == 'second') {
+                filename2=file.name;
             }
             var formData = new FormData();
             formData.append('file', file, file.name);
@@ -58,31 +69,34 @@
             }
             button.innerHTML = 'Uploading';
             xhr.send(formData);
+            if(f.value){
+                try{
+                    f.value = ''; //for IE11, latest Chrome/Firefox/Opera...
+                }catch(err){ }
+            }
         } else {
             button.innerHTML = 'Choose';
         }
-
     }
 
     function mergeFiles(f1, f2) {
         var button = document.getElementById('merge-image-button');
-        if (filename1 === null || filename2 === null) {
+        if (f1 === null || f2 === null) {
             button.innerHTML = 'Too early'
             return
         }
-        
+
         var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
+        xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                 button.innerHTML = 'Merged';
-                        var img = document.createElement("img");
-                        img.setAttribute("src", xmlHttp.responseText);
-                        document.getElementById('merge-image').appendChild(img)
+                var img = document.createElement("img");
+                img.setAttribute("src", xmlHttp.responseText);
+                document.getElementById('merge-image').appendChild(img)
 
             } else {
                 button.innerHTML = 'Try again!'
             }
-
         }
         xmlHttp.open("GET", "http://localhost:5000/mergefiles?f1='" + filename1 + "'&f2='" + filename2 + "'", true); // true for asynchronous
         xmlHttp.send(null);
@@ -90,42 +104,59 @@
     }
 </script>
 <header class="container-fluid">
-        <div class="container" style="height: 90px;">
-            <div class="container" id="logo">
-                <img style="max-height: 100%;" src="bootstrap_files/UFZ_colored_withoutBlack.png"></div>
-            <div class="container" id="headline-container">
+    <div class="container">
+        <div class="row">
+            <div id="headline-container" class="col">
                 <h1>Helmholtz Centre for Environmental Research</h1>
             </div>
+            <div class="float-right">
+                <img id="logo" src="bootstrap_files/UFZ_colored_withoutBlack.png">
+            </div>
         </div>
+    </div>
 </header>
-<div class="container" style="padding-top: 30px;">
-    <div class="container" style="float: left;width: 50%;">
-        <div class="container">
-            <input id="first-image-file" style="display: none;" type="file">
-            <button id="first-image-button" type="button" class="btn btn-light" onclick="uploadFile('first')">Upload File 1</button>
+
+<div class="container">
+    <div class="row m-4">
+        <div class="col-lg-6">
+            <div class="row m-1">
+                <input id="first-image-file" style="display: none;" type="file" onchange="processFile('first')">
+            </div>
+            <div class="row m-1">
+                <button id="first-image-button" type="button" class="btn btn-light btn-block" onclick="uploadFile('first')">Upload
+                    File 1
+                </button>
+            </div>
         </div>
-        <div class="container" id="first-image"></div>
-    </div>
-    <div class="container" style="float: right;width: 50%;">
-        <div class="container">
-            <input id="second-image-file" style="display: none;" type="file">
-            <button id="second-image-button" type="button" class="btn btn-light" id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
+        <div class="col-lg-6">
+            <div class="row m-1">
+                <input id="second-image-file" style="display: none;" type="file" onchange="processFile('second')">
+            </div>
+            <div class="row m-1">
+                <button id="second-image-button" type="button" class="btn btn-light btn-block" id="second-image-button"
+                    onclick="uploadFile('second')">Upload File 2</button>
+            </div>
         </div>
-        <div class="container" id="second-image"></div>
     </div>
-    <div class="container-fluid" style="width: 100%;clear: both;">
-        <div class="container" style="width: 62%;margin: 0 auto;text-align: center;">
-            <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block" onclick="uploadFile('merge')">MERGE</button>
-            <div id="merge-image" class="container"></div>
+    <div class="row m-4">
+        <div class="col-sm-12">
+            <div class="row m-1">
+                <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block"
+                    onclick="uploadFile('merge')">MERGE
+                </button>
+            </div>
+            <div class="row m-1">
+                <div id="merge-image" class="container"></div>
+            </div>
         </div>
     </div>
 </div>
 
-    <footer class="navbar fixed-bottom navbar-light bg-light">
-        <div>
-            Imprint &amp; Data Policy
-        </div>
-    </footer>
+<footer class="navbar fixed-bottom navbar-light bg-light">
+    <div>
+        Imprint &amp; Data Policy
+    </div>
+</footer>
 
 
 <!-- Optional JavaScript -->
