@@ -49,9 +49,9 @@ def drawShape(shapes, edges, name="a"):
     #cv.waitKey(0)
 
 def drawHeatmap(heatmap, shapes_1, shapes_2):
-    heatmap1 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_1], color=256)
-    heatmap2 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_2], color=128)
-    heatmap = cv2.addWeighted(heatmap1, 0.5, heatmap2, 0.5, 0)
+    heatmap1 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_1], color=100)
+    heatmap2 = cv2.fillPoly(numpy.asarray(heatmap), pts=[shapes_2], color=50)
+    heatmap = heatmap1 + heatmap2
     return heatmap
 
 def euclideanDistance(contour1, contour2):
