@@ -41,7 +41,7 @@ def filterContours(contours):
     print("Contours Length: "+str(len(contoursSmall)))
     return contoursSmall
 
-def run(filePath, subjectiveIntegration, show):
+def run(filePath, subjectiveIntegration, show, outputPath=None):
     #ToDo: Refactor
 
     # At first, we will read the image and get the edges
@@ -120,5 +120,8 @@ def run(filePath, subjectiveIntegration, show):
     if show:
         plt.imshow(edgeHeatmap)
         plt.show()
+
+    if outputPath != None:
+        plt.imsave(outputPath, edgeHeatmap)
 
     return heatmapShapes
