@@ -25,7 +25,7 @@
 </head>
 <body>
 <script>
-    var filename1, filename2;
+    var filename1 = null, filename2 = null;
 
     function uploadFile(placeIndicator) {
         var f = document.getElementById(placeIndicator.concat('-image-file'));
@@ -66,6 +66,11 @@
 
     function mergeFiles(f1, f2) {
         var button = document.getElementById('merge-image-button');
+        if (filename1 === null || filename2 === null) {
+            button.innerHTML = 'Too early'
+            return
+        }
+        
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -97,20 +102,20 @@
     <div class="container" style="float: left;width: 50%;">
         <div class="container">
             <input id="first-image-file" style="display: none;" type="file">
-            <button type="button" class="btn btn-light" onclick="uploadFile('first')">Upload File 1</button>
+            <button id="first-image-button" type="button" class="btn btn-light" onclick="uploadFile('first')">Upload File 1</button>
         </div>
         <div class="container" id="first-image"></div>
     </div>
     <div class="container" style="float: right;width: 50%;">
         <div class="container">
             <input id="second-image-file" style="display: none;" type="file">
-            <button type="button" class="btn btn-light" id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
+            <button id="second-image-button" type="button" class="btn btn-light" id="second-image-button" onclick="uploadFile('second')">Upload File 2</button>
         </div>
         <div class="container" id="second-image"></div>
     </div>
     <div class="container-fluid" style="width: 100%;clear: both;">
         <div class="container" style="width: 62%;margin: 0 auto;text-align: center;">
-            <button type="button" class="btn btn-secondary btn-lg btn-block" onclick="uploadFile('merge')">MERGE</button>
+            <button id="merge-image-button" type="button" class="btn btn-secondary btn-lg btn-block" onclick="uploadFile('merge')">MERGE</button>
             <div id="merge-image" class="container"></div>
         </div>
     </div>
