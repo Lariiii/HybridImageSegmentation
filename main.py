@@ -9,10 +9,10 @@ import approach_colorMatching
 
 def main():
     # Data Reading
-    getShowContours("results/subjective1.png")
     generatePNGs = False
-    shapeMatching = True
-    colorMatching = False
+    shapeMatching = False
+    colorMatching = True
+    subjectiveMatching = False
 
     if generatePNGs:
         dataframeToImage(read_subjective1(), 'results/subjective1.png')
@@ -27,10 +27,13 @@ def main():
         dataframeToImage(pruning(read_slope()), 'results/slope.png')
 
     if shapeMatching:
-        approach_shapeMatching.run()
+        _ = approach_shapeMatching.run('results/corine.png', subjectiveIntegration=False, show=True)
+
+    if subjectiveMatching:
+        _ = approach_shapeMatching.run('results/subjective2.png', subjectiveIntegration=True, show=True)
 
     if colorMatching:
-        approach_colorMatching.run()
+        _ = approach_colorMatching.run()
 
 
 
