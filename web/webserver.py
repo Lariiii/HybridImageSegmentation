@@ -97,21 +97,21 @@ def upload():
 
 @app.route('/mergefiles')
 def mergeFiles():
-    filename1 = request.args.get('f1')
+    filename = request.args.get('f1')
     basePath = os.path.dirname(os.path.realpath(__file__))
     print(os.path.dirname(os.path.realpath(__file__)))
-    print(filename1)
+    print(filename)
 
     #return '/temp/Corine.txt.png'
-    targetFilename = ''.join([filename1, '_', 'merged.png'])
+    targetFilename = ''.join([filename, '_', 'merged.png'])
     #targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
 
-    filename1 = basePath + '/' + filename1
-    targetFilepath = basePath + '/' + targetFilename
-    print(filename1)
+    filename = os.path.join(basePath, filename)
+    targetFilepath = os.path.join(basePath, targetFilename)
+    print(filename)
     print(targetFilepath)
 
-    approach_shapeMatching.run(filename1, subjectiveIntegration=True, show=False, outputPath=targetFilepath)
+    approach_shapeMatching.run(filename, subjectiveIntegration=True, show=False, outputPath=targetFilepath)
 
     print('Transformed image to ', targetFilename)
     response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
