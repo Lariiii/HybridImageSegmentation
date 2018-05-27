@@ -22,8 +22,8 @@ def drawShape(shapes, edges, name="a"):
 
     colors = [255, 0, 0]
 
-    for shape in shapes:
-        data[shape[0][1]][shape[0][0]] = colors[0]
+    #for shape in shapes:
+    #    data[shape[0][1]][shape[0][0]] = colors[0]
 
     image = Image.fromarray(data)
     image = cv2.fillPoly(numpy.asarray(image), pts=[shapes], color=(255, 255, 0))
@@ -68,7 +68,4 @@ for i, org_contour in enumerate(contoursSmallOrg):
                 plt.subplot(122), plt.imshow(drawShape(dest_contour, edges2), cmap='gray')
                 plt.title('Matched Shape'), plt.xticks([]), plt.yticks([])
                 plt.show()
-
-
-
-
+                plt.clf()
