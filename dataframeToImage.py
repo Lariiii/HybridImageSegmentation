@@ -12,15 +12,14 @@ def dataframePreprocessing(dataframe):
     for i, row in dataframe.iterrows():
         dataframe.set_value(i, 'x', row['x'] / 100)
         dataframe.set_value(i, 'y', row['y'] / 100)
-        if row['x']/100 < min_x:
-            min_x = row['x']/100
-        if row['x']/100 > max_x:
-            max_x = row['x']/100
-
-        if row['y']/100 < min_y:
-            min_y = row['y']/100
-        if row['y']/100 > max_y:
-            max_y = row['y']/100
+        if row['x'] < min_x:
+            min_x = row['x']
+        if row['x'] > max_x:
+            max_x = row['x']
+        if row['y'] < min_y:
+            min_y = row['y']
+        if row['y'] > max_y:
+            max_y = row['y']
 
     for i, row in dataframe.iterrows():
         dataframe.set_value(i, 'x', row['x'] - min_x)
