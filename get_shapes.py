@@ -9,14 +9,14 @@ from datafiles import names
 def edgeDetection(image, outputName='results/edge'):
     # Find Edges
     image = cv.Canny(image,100,600)
-    plt.imshow(image)
-    plt.show()
+    #plt.imshow(image)
+    #plt.show()
 
     # Blur Image
     kernel = np.ones((5, 5), np.float32) / 25
     image = cv.filter2D(image, -1, kernel)
-    plt.imshow(image)
-    plt.show()
+    #plt.imshow(image)
+    #plt.show()
 
     # Threshold Image
     #image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
