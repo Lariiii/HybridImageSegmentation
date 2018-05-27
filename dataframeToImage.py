@@ -3,19 +3,7 @@ from read_files import *
 import numpy
 from PIL import Image
 
-def dataframeToImage(dataframe, filename):
-
-    classRangeHigh = 0
-    for i, row in dataframe.iterrows():
-        if int(row['class']) > classRangeHigh:
-            classRangeHigh = int(row['class'])
-
-    # Not True in general, but for this PoC
-    if classRangeHigh > 42:
-        coninuus = True
-    else:
-        coninuus = False
-
+def dataframePreprocessing(dataframe):
     min_x = 1000000
     max_x = 0
     min_y = 1000000
@@ -38,11 +26,26 @@ def dataframeToImage(dataframe, filename):
         dataframe.set_value(i, 'x', row['x'] - min_x)
         dataframe.set_value(i, 'y', row['y'] - min_y)
 
+    return dataframe
+
+def dataframeToImage(dataframe, filename):
+    classRangeHigh = 0
+    for i, row in dataframe.iterrows():
+        if int(row['class']) > classRangeHigh:
+            classRangeHigh = int(row['class'])
+
+    # Not True in general, but for this PoC
+    if classRangeHigh > 42:
+        continuous = True
+    else:
+        continuous = False
+
+    dataframe = dataframePreprocessing(dataframe)
+
     data = numpy.zeros((431, 337, 3), dtype=numpy.uint8)
 
     colors = []
-    if coninuus:
-        # 0 to 1 or 0 to 600
+    if continuous:
         for i, row in dataframe.iterrows():
             data[int(row['x'])][int(row['y'])] = [int((row['class'] / classRangeHigh) * 255), 0, 128]
     else:
@@ -58,19 +61,7 @@ def dataframeToImage(dataframe, filename):
     image.save(filename)
 
 
-#df_geo = pruning(read_subjective1())
-#df_geo = read_subjective1()
 
-#dataframeToImage(read_subjective1(), 'results/subjective1.png')
-#dataframeToImage(read_subjective2(), 'results/subjective2.png')
-#dataframeToImage(read_corine(), 'results/corine.png')
-
-#dataframeToImage(pruning(read_aspect1()), True, 'results/aspect1.png')
-#dataframeToImage(pruning(read_aspect2()), True, 'results/aspect2.png')
-
-#dataframeToImage(pruning(read_dem()), True, 'results/dem.png')
-#dataframeToImage(pruning(read_ndvi()), True, 'results/ndvi.png')
-#dataframeToImage(pruning(read_slope()), True, 'results/slope.png')
 
 
 

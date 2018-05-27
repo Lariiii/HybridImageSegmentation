@@ -2,35 +2,11 @@ import cv2
 import numpy
 from PIL import Image
 
-from get_shapes import edgeDetection, findContoursCV, drawContoursCV
+from getContours import edgeDetection, findContoursCV, drawContoursCV
+from dataframeToImage import dataframePreprocessing
 from read_files import read_subjective2, read_subjective1
 
 filename = 'results/testColor.png'
-
-def dataframePreprocessing(dataframe):
-    min_x = 1000000
-    max_x = 0
-    min_y = 1000000
-    max_y = 0
-
-    for i, row in dataframe.iterrows():
-        dataframe.set_value(i, 'x', row['x'] / 100)
-        dataframe.set_value(i, 'y', row['y'] / 100)
-        if row['x'] < min_x:
-            min_x = row['x']
-        if row['x'] > max_x:
-            max_x = row['x']
-
-        if row['y'] < min_y:
-            min_y = row['y']
-        if row['y'] > max_y:
-            max_y = row['y']
-
-    for i, row in dataframe.iterrows():
-        dataframe.set_value(i, 'x', row['x'] - min_x)
-        dataframe.set_value(i, 'y', row['y'] - min_y)
-
-    return dataframe
 
 def dataframeToImageColorMerge(dataframe1, dataframe2, filename):
     classRangeHigh = 0
@@ -57,9 +33,5 @@ def dataframeToImageColorMerge(dataframe1, dataframe2, filename):
     image = Image.fromarray(data)
     image.save(filename)
 
-dataframeToImageColorMerge(read_subjective1(), read_subjective2(), filename)
-
-
-#edges2 = edgeDetection(im2)
-#image2, contours2, hierarchy2 = findContoursCV(edges2)
-#drawContoursCV(image2, contours2, hierarchy2)
+def run():
+    dataframeToImageColorMerge(read_subjective1(), read_subjective2(), "results/colorMap.png")
