@@ -9,13 +9,15 @@ This repository contains the concept and approaches to integrate human and techn
 ### Colormatching
 
 
-### Subjective Matching
-
-
 ### Boostmatching
-
+![Boostmatching](https://github.com/Lariiii/HybridImageSegmentation/blob/master/documentation_images/Boostmatching.png)
 
 ### Convex Hull
+
+
+## Getting Started
+
+
 
 ## Contributors
 * [Larissa Hoffaeller](https://github.com/Lariiii)
