@@ -82,14 +82,14 @@ def upload():
         targetFilename = ''.join(filename + '.png')
         targetFilepath = os.path.join(app.config['UPLOAD_FOLDER'], targetFilename)
 
-        print('Store image to ', targetFilename)
-        df = read_generic(filepath)
-        df_pruned = pruning(df)
-        dataframeToImage(df_pruned, targetFilepath)
+        targetUrl = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
 
-
-        response = '/'.join(['', app.config['UPLOAD_FOLDER'], targetFilename])
-
+        if not os.path.isfile(targetFilepath):
+            print('Store image to ', targetFilename)
+            df = read_generic(filepath)
+            df_pruned = pruning(df)
+            dataframeToImage(df_pruned, targetFilepath)
+        response = targetUrl
 
         # call Marvin, get back image path
 
