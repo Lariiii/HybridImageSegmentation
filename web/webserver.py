@@ -6,7 +6,7 @@ import json
 from werkzeug.utils import secure_filename
 
 from read_files import read_generic
-from marvin_test import dataframeToImage
+from dataframeToImage import dataframeToImage
 from dataPreprocessing import pruning
 
 UPLOAD_FOLDER = 'temp'
