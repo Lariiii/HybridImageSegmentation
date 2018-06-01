@@ -2,7 +2,7 @@ from read_files import *
 
 data_cache = None
 
-names=[
+names = [
     'corine',
     'subjective1',
     'subjective2',
@@ -14,7 +14,13 @@ names=[
     'ndvi'
 ]
 
+
 def getAllData():
+    """
+    Read all known data sources.
+
+    :return: Array of tuples (name, data), one for each data source
+    """
     global data_cache
     if data_cache is None:
         data_cache = [
@@ -30,5 +36,11 @@ def getAllData():
         ]
     return data_cache
 
+
 def removeCoordinates(df):
+    """
+    Drop the coordinate columns of the dataframe
+    :param df: pandas dataframe with 'x' and 'y' column
+    :return: pandas dataframe without 'x' and 'y' column
+    """
     return df.drop(['x', 'y'], axis=1)
