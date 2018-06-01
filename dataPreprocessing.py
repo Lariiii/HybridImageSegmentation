@@ -4,7 +4,21 @@ import numpy as np
 
 pruning_methods = ['best', 'mean', 'median']
 
+
 def pruning(dataframe, debug=False, method='best'):
+    """
+    From the many images (represented by data columns in the dataframe), create one which should work as representant for
+    all the others.
+    You can choose the 'best' method, to keep the entity of an image. The best-fitting image will be chosen based on the
+    lowest number of outliers (calculated on median and standard deviation for each pixel)
+    The 'median' method will take for each image pixel the median value, so combining all images to a new one.
+    Similar to the 'median', the 'mean' method will choose the average pixel value.
+
+    :param dataframe: pandas dataframe with our data schema
+    :param debug: possibility to enable additional print statements
+    :param method: choose from 'best', 'mean', 'median'; define, how to find the best representant.
+    :return: pandas dataframe with [x, y, class, median, std_dev]
+    """
     df_images = removeCoordinates(dataframe)
 
     medians = df_images.median(axis=1)
@@ -28,11 +42,22 @@ def pruning(dataframe, debug=False, method='best'):
 
     return df_pruned.assign(median=medians.values) \
         .assign(std_dev=std_devs.values) \
-        .rename(columns={'pixel' : 'class'})
+        .rename(columns={'pixel': 'class'})
 
-# return df with [x, y, pixel]
-def prune_to_best_image(dataframe, df_images, extra_value_count, debug, sigma_factor=1.5):
 
+
+def prune_to_best_image(dataframe, df_images, extra_value_count, debug=False, sigma_factor=1.5):
+    """
+    Reduce multiple image columns to one and keep the entity of an image. The best-fitting image will be chosen based on the
+    lowest number of outliers (calculated on median and standard deviation for each pixel)
+
+    :param dataframe: original dataframe with our data schema
+    :param df_images: pandas df with one image per column (no coordinates)
+    :param extra_value_count: specification of how many columns have manually been added to df_images
+    :param debug: enable additional log messages
+    :param sigma_factor: The sigma environment, which defines inliers, as a factor to the standard deviation
+    :return: pandas df with [x, y, pixel]
+    """
     outlier_detection_array = []
 
     for _, row in df_images.iterrows():
@@ -69,13 +94,42 @@ def prune_to_best_image(dataframe, df_images, extra_value_count, debug, sigma_fa
     return dataframe[['x', 'y', bestMatch]] \
         .rename(columns={bestMatch: 'pixel'})
 
+
 def prune_to_avg_image(dataframe, df_images, extra_value_count, debug):
+    """
+    Reduce multiple images given as dataframe columns to the average of each pixel row
+
+    :param dataframe: original dataframe with our data schema
+    :param df_images: pandas df with one image per column (no coordinates)
+    :param extra_value_count: (irrelevant) specification of how many columns have manually been added to df_images
+    :param debug: (irrelevant) enable additional log messages
+    :return: pandas df with [x, y, pixel]
+    """
     return dataframe[['x', 'y']].assign(pixel=df_images['mean'])
 
+
 def prune_to_median_image(dataframe, df_images, extra_value_count, debug):
+    """
+    Reduce multiple images given as dataframe columns to the average of each pixel row
+
+    :param dataframe: original dataframe with our data schema
+    :param df_images: pandas df with one image per column (no coordinates)
+    :param extra_value_count: (irrelevant) specification of how many columns have manually been added to df_images
+    :param debug: (irrelevant) enable additional log messages
+    :return: pandas df with [x, y, pixel]
+    """
     return dataframe[['x', 'y']].assign(pixel=df_images['median'])
 
+
 def output_as_txt(df_pruned, outputfile='output.txt'):
+    """
+    Store the pruned dataframe with flow values as csv.
+
+    :param df_pruned: pruned dataframe with [x, y, class]
+    :param outputfile: destination file name
+    :return: saving result
+    """
     np.savetxt('results/' + outputfile, df_pruned[['x', 'y', 'class']].values, fmt='%f')
+
 
 # output_as_txt(pruning(read_ndvi()), 'nvdi.txt')
