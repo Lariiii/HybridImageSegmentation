@@ -105,6 +105,7 @@ def run(filePath, subjectiveIntegration, show, outputPath=None):
                 if ret < 1.25:
                     # Draw the 2 contours on the heat map and append the shape to the shape collection
                     # ToDo: Draw a line between the 2 contours to see the connection
+                    # ToDO: Draw shapes at half transparency
                     drawHeatmap(edgeHeatmap, dest_contour, org_contour)
                     heatmapShapes.append((org_contour, dest_contour))
                     if show:

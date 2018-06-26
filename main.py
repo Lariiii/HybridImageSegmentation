@@ -29,7 +29,7 @@ def main():
     if shapeMatching:
         # Choose whatever data you want to correlate using computer vision
         # Choose from the PNG's above
-        _ = approach_shapeMatching.run('results/corine.png', subjectiveIntegration=False, show=False, outputPath="test.png")
+        _ = approach_shapeMatching.run('results/corine.png', subjectiveIntegration=False, show=True, outputPath="test.png")
 
     if subjectiveMatching:
         # Choose a subjective picture e.g. subjective1.png or subjective2.png
