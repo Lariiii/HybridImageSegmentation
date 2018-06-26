@@ -34,7 +34,9 @@ def main():
     if subjectiveMatching:
         # Choose a subjective picture e.g. subjective1.png or subjective2.png
         # Most reasonable results for subjective1.png
-        _ = approach_shapeMatching.run('results/subjective1.png', subjectiveIntegration=True, show=True)
+        _ = approach_shapeMatching.run('results/subjective1.png', subjectiveIntegration=True, show=False, outputPath='test.png')
+        #approach_shapeMatching.run('/home/mirko/PycharmProjects/HybridImageSegmentation/web/temp/Corine.txt.png', subjectiveIntegration=True, show=False,
+        #                           outputPath='/home/mirko/PycharmProjects/HybridImageSegmentation/test.png')
 
     if colorMatching:
         # No possible data options
